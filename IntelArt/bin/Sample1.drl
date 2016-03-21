@@ -1,0 +1,53 @@
+package com.sample
+ 
+import com.sample.DroolsTest1.Message;
+ 
+rule "G"
+    when
+        m : Message( status == Message.GUSANO, myMessage : message )
+    then
+        System.out.println( myMessage ); 
+        m.setMessage( "su equipo ha sido atacado por un gusano \n Son virus que infectan archivos ejecutables y sectores de booteo simultáneamente, combinando en ellos la acción de los virus de programa y de los virus de sector de arranque.\n" );
+        m.setStatus( Message.GUSANO );
+       update(m);
+end 
+
+rule "V"
+    when
+        m : Message( status == Message.VIRUS, myMessage : message )
+    then
+        System.out.println( myMessage ); 
+        m.setMessage( "su equipo ha sido atacado por un VIRUS \n Comúnmente infectan archivos con extensiones .EXE, .COM, .OVL, .DRV, .BIN, .DLL, y .SYS., los dos primeros son atacados más frecuentemente por que se utilizan mas.\n" );
+        m.setStatus( Message.VIRUS );
+        update(m);
+end
+
+rule "C"
+    when
+        m : Message( status == Message.CABALLO, myMessage : message )
+    then
+        System.out.println( myMessage ); 
+        m.setMessage( "ud tiene problemas de virus troyanos \n Es un programa dañino que se oculta en otro programa legítimo, y que produce sus efectos perniciosos al ejecutarse este ultimo. En este caso, no es capaz de infectar otros archivos o soportes, y sólo se ejecuta una vez, aunque es suficiente, en la mayoría de las ocasiones, para causar su efecto destructivo.\n" );
+        m.setStatus( Message.CABALLO);
+        update(m);
+end
+
+rule "B"
+    when
+        m : Message( status == Message.BOOT, myMessage : message )
+    then
+        System.out.println( myMessage ); 
+        m.setMessage( "su sistema a sido atacado por un virus de boot\n" );
+        m.setStatus( Message.BOOT);
+        update(m);
+end
+
+rule "VS"
+    when
+        m : Message( status == Message.VIRUSS, myMessage : message )
+    then
+        System.out.println( myMessage ); 
+        m.setMessage( "Tiene problemas de virus de sobreescritura\n" );
+        m.setStatus( Message.VIRUSS);
+        update(m);
+end

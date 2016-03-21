@@ -1,0 +1,1123 @@
+import com.prueba.PruebaDrools.Mensaje;
+import com.prueba.PruebaDrools.Edo;
+import com.prueba.PruebaDrools.*;
+import com.prueba.PruebaDrools;
+import javax.swing.JOptionPane;
+
+rule "Inicio"
+    when
+        m : Mensaje( status == Mensaje.valores.Inicio,myMessage:message )
+    then
+        JOptionPane.showMessageDialog(null,myMessage,"Bienvenido a \"El Lugar de Tus Sueños\"",JOptionPane.PLAIN_MESSAGE);
+        m.setStatus( Mensaje.valores.CuandoViajar );
+        m.setMessage("Cuando Deseas Viajar?\n1)Verano\n2)Invierno\n\n3)Salir");
+        update( m );
+end
+
+rule "CuandoViajar"
+    when  m: Mensaje(status==Mensaje.valores.CuandoViajar,myMessage:message);
+    then try{
+        int opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"Elige cuando viajar",3));
+        if(1==opcion){
+         m.setMessage("Qué prefieres:\n1) Un lugar donde llueva poco, el día sea caluroso, y las noches frescas\n"+
+         "2) Un lugar donde el clima es muy caluroso con lluvias moderadas.\n3) Un lugar caluroso y además llueva casi todos los días.\n\n4) Salir");
+        m.setStatus(Mensaje.valores.viajaVerano);}
+        
+        else if(2==opcion){
+        m.setMessage("Qué prefieres:\n1) Un lugar donde los días son muy fresco con poca lluvia durante el año.\n"
+        +"2) Un lugar donde los días con frescos y puede llegar a nevar.\n3) Un lugar donde hace calor y llueve durante casi todo el año.\n"+
+        "4) Un lugar donde hace calor y las lluvias son escasas.\n\n5) Salir");
+        m.setStatus(Mensaje.valores.viajaInvierno);}
+        
+        else if(3==opcion){ m.setStatus(null); }
+       
+        else JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+   
+    update(m);
+end
+
+rule "ViajaVerano"
+    when
+        m : Mensaje( status == Mensaje.valores.viajaVerano,myMessage:message ); 
+    then 
+        boolean continuar=false;
+    try{
+        int opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"Elige tus preferencias",3));
+        System.out.println("Puntos de Clima");
+        if(opcion==1){
+            for(int i=0;i<PruebaDrools.lista.size();i++)
+            if (PruebaDrools.lista.get(i).clima==Edo.climas.Seco){
+            PruebaDrools.lista.get(i).agrado=20;
+            System.out.println(PruebaDrools.lista.get(i).agrado + " - " +PruebaDrools.lista.get(i).nombre);}
+            continuar=true;}
+        
+        else if(2==opcion){ 
+            for(int i=0;i<PruebaDrools.lista.size();i++)
+            if (PruebaDrools.lista.get(i).clima==Edo.climas.Templado||PruebaDrools.lista.get(i).clima==Edo.climas.CalidoSemiHumedo){
+                PruebaDrools.lista.get(i).agrado=20;
+            System.out.println(PruebaDrools.lista.get(i).agrado + " - " +PruebaDrools.lista.get(i).nombre);}
+            continuar=true;}
+        
+        else if(3==opcion){
+            for(int i=0;i<PruebaDrools.lista.size();i++)
+            if (PruebaDrools.lista.get(i).clima==Edo.climas.CalidoHumedo){
+                PruebaDrools.lista.get(i).agrado=20;
+            System.out.println(PruebaDrools.lista.get(i).agrado + " - " +PruebaDrools.lista.get(i).nombre);}
+            continuar=true;}
+            
+        else if(4==opcion){ m.setStatus(null); }
+      
+        else { JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE); }
+        System.out.println("\n\n");
+        }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+        
+        if(continuar){
+        m.setStatus( Mensaje.valores.tienePlaya);
+        m.setMessage("Te gustaria un lugar con playa\n1)Si \n2) No\n3) Salir");}
+        update( m );
+end
+
+rule "ViajaInvierno"
+    when
+        m : Mensaje( status == Mensaje.valores.viajaInvierno,myMessage:message )
+    then 
+        boolean cont=false;
+    try{
+        int opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"Elige tus preferencias",3));
+        System.out.println("Puntos de Clima");
+        if(1==opcion){
+            for(int i=0;i<PruebaDrools.lista.size();i++)
+            if (PruebaDrools.lista.get(i).clima==Edo.climas.Seco){
+                PruebaDrools.lista.get(i).agrado=20;
+            System.out.println(PruebaDrools.lista.get(i).agrado + " - " +PruebaDrools.lista.get(i).nombre);}
+            cont=true;}
+        
+        else if(2==opcion){
+            for(int i=0;i<PruebaDrools.lista.size();i++)
+            if (PruebaDrools.lista.get(i).clima==Edo.climas.CalidoSemiHumedo){
+                PruebaDrools.lista.get(i).agrado=20;
+            System.out.println(PruebaDrools.lista.get(i).agrado + " - " +PruebaDrools.lista.get(i).nombre);}
+            cont=true;}
+        
+        else if(3==opcion){
+            for(int i=0;i<PruebaDrools.lista.size();i++)
+            if (PruebaDrools.lista.get(i).clima==Edo.climas.CalidoHumedo){
+                PruebaDrools.lista.get(i).agrado=20;
+            System.out.println(PruebaDrools.lista.get(i).agrado + " - " +PruebaDrools.lista.get(i).nombre);}
+            cont=true;}
+        
+        else if(4==opcion){
+            for(int i=0;i<PruebaDrools.lista.size();i++)
+            if (PruebaDrools.lista.get(i).clima==Edo.climas.Templado){
+                PruebaDrools.lista.get(i).agrado=20;
+            System.out.println(PruebaDrools.lista.get(i).agrado + " - " +PruebaDrools.lista.get(i).nombre);}
+            cont=true;}
+        
+        else if(5==opcion){ m.setStatus(null); }
+       
+        else {JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE); }
+        System.out.println("\n\n");
+        }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+        
+        if(cont){
+        m.setStatus( Mensaje.valores.tienePlaya);
+        m.setMessage("Te gustaria un lugar con playa\n1) Si\n2) No\n3) Salir");}
+        
+        update( m );
+end
+
+rule "tienePlaya"
+    when 
+        m: Mensaje(status==Mensaje.valores.tienePlaya,myMessage:message);
+    then try{
+        int opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"Elige tus preferencias",3));
+        System.out.println("Puntos dePlaya");
+        if(opcion==1||opcion==2){
+        
+        if(opcion==1){
+            for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).playa){       PruebaDrools.lista.get(i).agrado+=25;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+         }
+               
+         else if(opcion==2){
+            for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(!PruebaDrools.lista.get(i).playa){    PruebaDrools.lista.get(i).agrado+=25;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+        }
+        m.setStatus(Mensaje.valores.esSeguro);
+        m.setMessage("Te importa mucho la seguridad del lugar que visitaras?\n1) Si\n2) No\n3) Salir");
+        }
+        
+        else if(3==opcion){ m.setStatus(null); }
+        else JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE);
+        System.out.println("\n\n");
+        }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+    update(m);
+end
+
+
+rule "esSeguro"
+    when m: Mensaje(status==Mensaje.valores.esSeguro,myMessage:message);
+    then 
+        int opcion=1;
+        try{
+        opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"Elige tus preferencias",3));
+         
+         System.out.println("Puntos de esSeguro");
+        if(opcion==1||opcion==2){
+            for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).muySeguro&&opcion==1){
+                  PruebaDrools.lista.get(i).agrado+=10;
+                  System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}
+              else if(opcion==2&&!PruebaDrools.lista.get(i).muySeguro){
+                  PruebaDrools.lista.get(i).agrado+=10;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+        
+        m.setStatus(Mensaje.valores.Comida);
+        m.setMessage("Que tipo de comida prefieres:\n1) Mariscos\n2) Otro Tipo\n\n3) Salir");
+        }
+        
+        else if(3==opcion){ m.setStatus(null); }
+       
+        else JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+        System.out.println("\n\n");
+        update(m);
+end
+
+
+
+rule "Comida"
+    when m: Mensaje(status==Mensaje.valores.Comida,myMessage:message);
+    then
+    try{
+    int opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"Que comida prefiere?",3));
+    if(opcion==1){
+    m.setStatus(Mensaje.valores.Mariscos);
+    m.setMessage("Que tipo de mariscos le gustan mas?\n1) Pescado\n2) Pulpo\n3) Camarones\n4) Almeja\n\n5) Salir");
+    }
+    else if(opcion==2){
+    m.setStatus(Mensaje.valores.OtraComida);
+    m.setMessage("De las siguientes opciones, que le gusta mas?\n1) Tamales\n2) Pollo\n3) China\n4) Carne\n5) Queso\n\n6)Salir");
+    }
+    else if(opcion==3){
+    m.setStatus(null);
+    }
+    else JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE);
+    }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+    update(m);
+end
+
+
+rule "Mariscos"
+    when m: Mensaje(status==Mensaje.valores.Mariscos,myMessage:message);
+    then
+     try{
+    int opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"De las siguientes opciones, que le gusta mas?",3));
+    
+    System.out.println("Puntos por Mariscos");
+    
+    if(opcion==1){
+     for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("BajaCalifornia")||PruebaDrools.lista.get(i).nombre.equals("Nayarit")||
+              PruebaDrools.lista.get(i).nombre.equals("Michoacan")||PruebaDrools.lista.get(i).nombre.equals("Chihuahua")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+    }
+    else if(opcion==2){
+         for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("Veracruz")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}   
+    }
+    else if(opcion==3){
+    for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("Sonora")||PruebaDrools.lista.get(i).nombre.equals("Sinaloa")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+    }
+    else if(opcion==4){
+    for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("BajaCaliforniaSur")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+    }
+    else if(opcion==5)m.setStatus(null);
+    
+    else JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE);
+    
+    if(opcion>0&&opcion<5){
+         m.setStatus(Mensaje.valores.Fin);
+        int cuantos=0;
+        do{try{
+        cuantos=Integer.parseInt(JOptionPane.showInputDialog(null,"Cuantos resultados desea ver?","Cantidad de Resultados",3));
+        }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+        }while(cuantos<1||cuantos>10);
+         m.setMessage("Los lugares mas afines a sus preferencias\n"+PruebaDrools.mostrar(cuantos)+"\n11) Salir");
+    }
+    System.out.println("\n\n");
+    }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+    update(m);
+end
+
+
+
+rule "OtraComida"
+    when m: Mensaje(status==Mensaje.valores.OtraComida,myMessage:message);
+    then
+    try{
+    int opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"De las siguientes opciones, que le gusta mas?",3));
+    
+    System.out.println("Puntos por Mariscos");
+    
+    if(opcion==1){
+     for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("BajaCaliforniaSur")||PruebaDrools.lista.get(i).nombre.equals("Tamaulipas")||
+              PruebaDrools.lista.get(i).nombre.equals("Nayarit")||PruebaDrools.lista.get(i).nombre.equals("Jalisco")
+              ||PruebaDrools.lista.get(i).nombre.equals("Queretaro")||PruebaDrools.lista.get(i).nombre.equals("Michoacan")
+              ||PruebaDrools.lista.get(i).nombre.equals("Veracruz")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+    }
+    else if(opcion==2){
+         for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("Sinaloa")||PruebaDrools.lista.get(i).nombre.equals("SanLuisPotosi")
+              ||PruebaDrools.lista.get(i).nombre.equals("Queretaro")||PruebaDrools.lista.get(i).nombre.equals("Hidalgo")
+              ||PruebaDrools.lista.get(i).nombre.equals("Guanajuato")||PruebaDrools.lista.get(i).nombre.equals("Colima")
+              ||PruebaDrools.lista.get(i).nombre.equals("Oaxaca")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}   
+    }
+    else if(opcion==3){
+    for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("BajaCalifornia")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+    }
+    else if(opcion==4){
+    for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("Sonora")||PruebaDrools.lista.get(i).nombre.equals("Tamaulipas")
+              ||PruebaDrools.lista.get(i).nombre.equals("NuevoLeon")||PruebaDrools.lista.get(i).nombre.equals("Sinaloa")
+              ||PruebaDrools.lista.get(i).nombre.equals("Durango")||PruebaDrools.lista.get(i).nombre.equals("Zacatecas")
+              ||PruebaDrools.lista.get(i).nombre.equals("Hidalgo")||PruebaDrools.lista.get(i).nombre.equals("Guanajuato")
+              ||PruebaDrools.lista.get(i).nombre.equals("Oaxaca")||PruebaDrools.lista.get(i).nombre.equals("Colima")
+              ||PruebaDrools.lista.get(i).nombre.equals("QuintanaRoo")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+    }
+    else if(opcion==5){//Chihuahua, Zacatecas, San Luis Potosí, Querétaro, Oaxaca, Chiapas.
+    for(int i=0;i<PruebaDrools.lista.size();i++){
+              if(PruebaDrools.lista.get(i).nombre.equals("Chihuahua")||PruebaDrools.lista.get(i).nombre.equals("Queretaro")
+              ||PruebaDrools.lista.get(i).nombre.equals("Zacatecas")||PruebaDrools.lista.get(i).nombre.equals("Oaxaca")
+              ||PruebaDrools.lista.get(i).nombre.equals("SanLuisPotosi")||PruebaDrools.lista.get(i).nombre.equals("Chiapas")){
+                     PruebaDrools.lista.get(i).agrado+=15;
+               System.out.println(PruebaDrools.lista.get(i).agrado+" - "+PruebaDrools.lista.get(i).nombre);}}
+    }
+    
+    else if(opcion==6)m.setStatus(null);
+    
+    else JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE);
+    
+    if(opcion>0&&opcion<6){
+         m.setStatus(Mensaje.valores.Fin);
+        int cuantos=0;
+        do{try{
+        cuantos=Integer.parseInt(JOptionPane.showInputDialog(null,"Cuantos resultados desea ver?","Cantidad de Resultados",3));
+        }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+        }while(cuantos<1||cuantos>10);
+         m.setMessage("Los lugares mas afines a sus preferencias\n"+PruebaDrools.mostrar(cuantos)+"\n11) Salir");
+    }
+    
+    System.out.println("\n\n");
+    }catch(Exception e){JOptionPane.showMessageDialog(null,"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+    update(m);
+end
+
+
+
+
+rule "fin"
+    when m: Mensaje(status==Mensaje.valores.Fin,myMessage:message);
+    then
+    try{
+        int opcion=Integer.parseInt(JOptionPane.showInputDialog(null,myMessage,"Selecciona un lugar para obtener mas info",3));
+        if(opcion>0&&opcion<11){
+        m.setStatuss(PruebaDrools.agrado[(opcion-1)]);
+        }
+        else if(11==opcion){ m.setStatus(null); }
+       
+        else JOptionPane.showMessageDialog(null,"Opcion Incorrecta","Error",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception e){JOptionPane.showMessageDialog(null,e+"Solo Numeros","Error",JOptionPane.ERROR_MESSAGE);}
+    
+    update(m);
+    
+end
+
+rule "BajaCalifornia"
+    when m: Mensaje(status==Mensaje.valores.BajaCalifornia,myMessage:message);
+    then
+    String descripcion=null;
+    JOptionPane.showMessageDialog(null,
+    "En Baja California existe una vasta riqueza gastronómica. No dejes de probar,\n"+
+"la paella de Mariscos en Ensenada, la exquisita Langosta Estilo Puerto Nuevo, \n"+
+"que obtiene su nombre del poblado que la creó y que se sirve acompañada de\n"+
+"frijoles y arroz. La Comida del mar es una exquisitez en Baja California desde\n"+
+"los tradicionales tacos de pescado, los mariscos frescos preparados en todas las\n"+
+"modalidades imaginables, pasando por el exquisito pan y el rompope de la Madres\n"+
+"Brigidinas, de Tecate.\n\n"+
+"Es por muchos conocidos que la tradicional comida de Mexicali, es la Comida China,\n"+
+"por lo que es una opción obligada al visitar esta ciudad, que ofrece alrededor de \n"+
+"120 establecimientos de esta especialidad. Como dato curioso debe saber que algunas\n"+
+"recetas reconocidas internacionalmente fueron creadas en Baja California: la Ensalada\n"+
+"César, el Clamato y las refrescantes Margaritas.\n"+
+"El 90% de los vinos reconocidos de México se cultivan y elaboran en una región cerca de\n"+
+"Ensenada que es famosa por la calidad de su producción y la belleza de sus paisajes.\n"+
+"Esta área se reconoce como la Región Bordeaux: El Valle de Guadalupe.Cada Año las\n"+
+"principales casas vinícolas del país ofrecen un temporada de celebraciones y eventos\n"+
+"para impulsar la cultura del Vino, Fiestas de Vendimia. \n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Sonora"
+    when m: Mensaje(status==Mensaje.valores.Sonora,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Se ubica al noroeste del territorio. Colinda con los estados de Chihuahua al oriente,\n"+
+"Sinaloa al sur y Baja California al noroeste. Al norte comparte una extensa frontera con\n"+
+"el estado norteamericano de Arizona y hacia el poniente colinda con el Mar de Cortés o\n"+
+"Golfo de California. Su territorio se caracteriza principalmente por el desierto que lleva\n"+
+"su nombre y por el sistema montañoso de la Sierra Madre Occidental. Su clima es árido y\n"+
+"extremoso. Entre los ríos más importantes destacan el río Colorado, el río Sonoyta, el río\n"+
+"Sonora, el río Yaqui y el río Mayo. Entre sus muchas islas descatan la del Tiburón, que con\n"+
+"sus 1,208 Km cuadrados, constituye la isla más grande del país.\n\n"+
+"Sus principales actividades económicas son la ganadería y la minería.\n"+
+"Gracias a su privilegiada ubicación es un destino turístico seguro y único que espera al\n"+
+"visitante con ciudades tapizadas de leyenda e historia, hermosas playas enmarcadas de color\n"+
+"y riqueza y un desierto que se une a la sierra.\n"+
+"Sonora sorprende también por la diversidad de sus ecosistemas, que invita a practicar una gran\n"+
+"variedad de actividades de recreación y turismo como buceo, pesca, nado, ciclismo de montaña,\n"+
+"senderismo, turismo cinegético y turismo ecológico.\n\n"+
+
+"Comparada con la gastronomía del centro del país, la sonorense no es muy abundante; aún así, la \n"+
+"tradición ha preservado platillos extraordinarios, que logran satisfacer hasta el paladar más\n"+
+"exigente.Muestra de ello son los siguientes platillos:\n\n"+
+
+"Burritos, atole y tamales de pitahaya, yumare, guaca-yaquí o puchero, guacapoponi o macha, tortillas\n"+
+"y gorditas de harina, cortes finos de res asados, tamales de elote y gallina pinta (caldo de carne\n"+
+"con nixtamal y frijol), Gallina pinta (cocido de maíz, fríjol y carne de res),  Menudo sonorense\n"+
+"(maíz, panza, pata de res, chile verde, cebolla, orégano, cilantro), Caldo de queso (papas rebanadas \n"+
+"con queso, tomate y cebolla), Tamales de garbanzo, Vitualla de garbanzos, Colache de calabacitas,\n"+
+"Bichicoris u orejones de calabaza, Tortillas de harina, Chimichangas, Coyotas, Callo de hacha, Burritos\n"+
+"de machaca,  Caldillo de machaca (huevos ahogados), Empanadas de ostiones estilo Guaymas (ostión y \n"+
+"mantequilla), Camarones rellenos (tocino, jamón, mostaza, naranja), Tépari con aldilla (frijoles blancos\n"+
+"con falda de res), Huacabaque yaqui (falda de res, cacahuazintle, fríjol, jitomate, chile ancho), Frijoles\n"+
+"maneados (fríjol, queso chihuahua, poblano, manteca),  Machaca, Carne asada, Postres: Cusirí yaqui\n"+
+"(calabaza, piloncillo, naranja, canela, harina, leche), Coyotas del pueblo (harina, levadura, piloncillo,\n"+
+"manteca), Bebidas: bacanora (de maguey mezcalero), zotol (maguey).\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "BajaCaliforniaSur"
+    when m: Mensaje(status==Mensaje.valores.BajaCaliforniaSur,myMessage:message);
+    then
+    String descripcion=null;
+    JOptionPane.showMessageDialog(null,
+   "En Baja California Sur la comida se basa en los productos marinos.  Algunos de los platillos más destacados son\n"+
+    "la langosta, la almeja chocolata, la machaca de mantarraya y el filete imperial (una rueda de camarones prensados\n"+
+    "rodeados de tocino y preparados a la plancha), sin olvidar la carne de puerco en salsa de tamarindo. Algunas\n"+
+    "personas para acompañar estos alimentos frecuentemente se utiliza una bebida como el clamato (jugo de tomate y\n"+
+    "almeja sazonada), o una damiana en las rocas, que se elabora a partir de la planta silvestre del mismo nombre, cuyas\n"+
+    "propiedades saludables son muy celebradas y populares.\n\n"+
+    "Su capital es la ciudad de La Paz. Las ciudades más importantes son Cabo San Lucas, San José del Cabo, Ciudad\n"+
+    "Constitución, Loreto y Santa Rosalía.\n"+
+    "El territorio del estado se destaca por sus riquezas naturales y el turismo. Al norte se ubican las lagunas costeras\n"+
+    "de San Ignacio y Ojo de Liebre, las cuales son sitios de reproducción de la ballena gris y se encuentran protegidas\n"+
+    "por el gobierno federal. En la misma zona se ubica el desierto Vizcaíno, una reserva mundial de la biósfera.\n"+
+    "Posee también algunas islas en el Océano Pacífico (Natividad, Magdalena y Santa Margarita) y otras en el Mar de Cortés:\n"+
+    "San Marcos, Coronados, Carmen, Monserrat, Santa Catalina, Santa Cruz, San Diego, San José, San Francisco, Partida,\n"+
+    "Espíritu Santo y Cerralvo. Sus principales elevaciones son la Sierra La Laguna, el Volcán Las Tres Vírgenes y el Cerro \n"+
+    "Salsipuedes.\n"
+
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Sinaloa"
+    when m: Mensaje(status==Mensaje.valores.Sinaloa,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Es el estado más poblado de la región noroeste de México. Su capital es Culiacán con aprox. 700,000 habitantes.\n"+
+    "Le siguen en importancia y tamaño Mazatlán— importante destino turístico— y Los Mochis— centro agrícola—.\n"+
+    "Culturalmente, es conocida por su música típica, la Banda o Tambora; la hulama, versión regional de juego de pelota\n"+
+    "prehispánico, se practica todavía en el estado. Sinaloa está ubicada en una región naturalmente fértil para la agricultura,\n"+
+    "puesto que cuenta con 11 ríos y 11 presas, por lo que es conocido como 'el granero de México'.\n\n"+
+    "El estado se ha dividido en tres zonas turísticas bien delimitadas, que permiten planificar los recorridos de acuerdo a sus\n"+
+    "preferencias. Hacia el norte, partiendo de Los Mochis, considerando la puerta de entrada para visitar la Sierra Tarahumara \n"+
+    "con su impresionante Cañón del Cobre; mientras que Topolobampo es el punto de acceso al Mar de Cortés, con bellas y tranquilas\n"+
+    "playas. En la zona central se encuentra la capital. En el sur se ubica Mazatlán, y junto a él existen pueblos coloniales de \n"+
+    "interés histórico y arquitectónico como Concordia, Copala y el Rosario.\n"+
+    "Otro de los grandes atractivos de la zona es el ferrocarril Chihuahua Pacifico, la vía de comunicación que une al Estado de \n"+
+    "Chihuahua con la costa norte de Sinaloa y ofrece la oportunidad de realizar uno de los más fascinantes recorridos por tren en \n"+
+    "el mundo; admirando las vistas escénicas con una increíble gama de ecosistemas, flora y fauna de la montaña, del desierto, \n"+
+    "barrancos y de la costa, así como grandes elevaciones y profundos cañones, pasando por 37 grandes puentes, 87 túneles, en un\n"+
+    "tramo de 480 kilómetros por una intrincada ruta que asciende desde el nivel del mar hasta 2,700 metros en sus partes más elevadas.\n"+
+    "A pesar de que los pescados y mariscos forman parte importante de las especialidades gastronómicas de Sinaloa, un platillo que\n"+
+    "ha destacado dentro y fuera del Estado es sin duda el chilorio, carne de cerdo finamente deshebrada y condimentada con salsa\n"+
+    "de chile ancho y otras especies, logrando un sabor único. El pollo asado estilo Sinaloa es otra especialidad que se ha extendido\n"+
+    "a otros lugares por su exquisito sabor. El mochomo, carne de res tipo cecina es otra especialidad típica de Sinaloa, de igual \n"+
+    "manera que los pichones empapelados y, por supuesto, los camarones sinaloenses, marinados en jugo de limón, rellenos de queso \n"+
+    "rallado, envueltos con tocino o cocidos a la parrilla.\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Chihuahua"
+    when m: Mensaje(status==Mensaje.valores.Chihuahua,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Es el estado más extenso de la República Mexicana y se localiza en su parte norte. Al sur limita con los estados de Durango y Sinaloa;\n"+
+    "al oeste con Sonora; al este con Coahuila y al norte con los estados norteamericanos de Texas y Nuevo México. Su nombre proviene de\n"+
+    "una voz náhuatl que significa \"zona seca o arenosa\". Fue habitado por varios grupos indígenas; sin embargo, hoy es conocido por los\n"+
+    "rarámuris que habitan la Sierra Tarahumara. Uno de los sitios que se pueden visitar es la zona prehispánica de Paquimé, en Casas Grandes.\n"+
+    "Otros sitios interesantes son Hidalgo del Parral, antigua capital de la Nueva Vizcaya, y poblados mineros como San Francisco del Oro,\n"+
+    "Santa Bárbara y Valle de Allende. El estado se divide en tres grandes regiones: la mesa central, una región de llanuras y porciones\n"+
+    "susceptibles de explotación; la Sierra Madre Occidental, formada por cañones y barrancas, y la zona desértica. Su clima ofrece muchos\n"+
+    "contrastes con su temporada de lluvias y cálidos días de verano, que se conjugan para crear un paisaje con grandes arboledas y amplia\n"+
+    "vegetación y un verdor que contrasta con lo agreste de su desierto. Es un centro agrícola, ganadero, industrial y comercial, apoyado por \n"+
+    "la intensa afluencia turística.\n\n"+
+    "Puede suponerse que la cocina mestiza de Chihuahua se sustentó originalmente en el conocimiento culinario de los hombres rudos que se\n"+
+    "atrevieron a llegar a estos territorios. Durante muchos años, los mineros, los arrieros y los vaqueros tuvieron que arreglárselas en la\n"+
+    "cocina sin la sabiduría y la experiencia de las mujeres. El ciclo agrícola en todo el territorio de Chihuahua es de tiempo reducido y de\n"+
+    "esta condición se deriva la segunda característica determinante en la cocina del Estado: la necesidad de aprovechar los cortos períodos\n"+
+    "de cosecha para preservar y almacenar alimentos.Desde tiempos remotos el chihuahuense aprendió a deshidratar, a secar los granos, \n"+
+    "los vegetales, las frutas e incluso las carnes.En este proceso además de que se garantizaba la existencia de alimentos para la temporada\n"+
+    "de frío o para enfrentar grandes períodos de sequía también se obtenía una variación en el sabor. No se compara el sabor del grano fresco\n"+
+    "del maíz, con el sabor que adquiere al convertirse en lo que se denomina por acá \"chacales\"; tampoco sabe igual el chile verde o chilaca\n"+
+    "fresco, que el chile pasado, o que la gran variedad de chile deshidratado que constituye la materia prima principal en la elaboración de \n"+
+    "los guisados.\n");
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Coahuila"
+    when m: Mensaje(status==Mensaje.valores.Coahuila,myMessage:message);
+    then
+    String descripcion="Coahuila\n\tEl estado alberga una amplia infraestructura hotelera, comercial y de servicios que permite una placentera estadía en sus tierras.\n"+
+        "Además de encontrarse frente a un milenario legado paleontológico, es posible realizar actividades de aventura.\n\n"+
+        "Los lugares por recorrer en Coahuila son variados; entre ellos se encuentran las áreas naturales de la Sierra de Arteaga,\n"+
+        "los Parques Naturales de Maderas del Carmen, las zonas paleontológicas de Rincón Colorado, las pozas localizadas en la Reserva\n"+
+        "de la Biósfera de Cuatrociénegas y el gran Cristo de las Noas que se levanta en Torreón.\n"+
+        "Otros lugares que vale la pena visitar son Parras de la Fuente, un Pueblo Mágico cuya belleza y\n"+
+        "hospitalidad de la gente logra hechizar a cualquiera; la Plaza de las Culturas, en la ciudad fronteriza de Piedras Negras;\n"+
+        "el pueblo San Pedro de las Colonias, escenario principal de la Revolución Mexicana y el observatorio de Monclova.\n"+
+        "La gastronomía coahuilense es una joya más de las que presume esta entidad; exquisitas carnes de cabrito,\n"+
+        "carnero y ternera sirven como base para preparar platillos como machaca, sábanas norteñas, discada, chorizo,\n"+
+        "quesos, tamales –principalmente de carne y elote, típicos de Ramos Arizpe y Saltillo- y burritos. ";
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "NuevoLeon"
+    when m: Mensaje(status==Mensaje.valores.NuevoLeon,myMessage:message);
+    then
+    String descripcion="Monterrey es capital del estado y una de las tres ciudades más importantes del país gracias a su pujante actividad comercial e\n"+
+    "industrial, esta ciudad ofrece un sin número de atractivos turísticos, como su arquitectura la cual conjuga los estilos colonial\n"+
+    "y modernista en bellos edificios como el Palacio del Obispado o el Museo de Arte Contemporáneo, dando lugar a un interesante contraste.\n"+
+    "En torno a su Macroplaza, el corazón de Monterrey, podrá admirar imponentes construcciones civiles y religiosas, así como visitar\n"+
+    "interesantes museos en los que se alojan valiosas colecciones, testimonio de los cuatro siglos de su historia.\n\n"+
+    "En los alrededores podrá admirar hermosos escenarios naturales como el Parque Nacional Cascada Cola de Caballo y el Parque Nacional\n"+
+    "Cumbres de Monterrey, uno de los más grandes del país, conformado por el Parque Ecológico Chipinque, el Cañón Huasteco y el Cerro\n"+
+    "de la Silla, lugares ideales para los amantes del campismo, el ecoturismo y el turismo de aventura.\n"+
+    "También conocida como “La Ciudad de las Montañas”, Monterrey es una fortaleza que está enmarcada por el Cerro de la Silla, la Loma Larga,\n"+
+    "el Topo Chico, el Cerro de las Mitras y la Sierra Madre Oriental.\n"+
+    "Esta ciudad cosmopolita ha sabido conjugar la arquitectura colonial con edificios modernos, dando lugar a una audaz e interesante contraste. \n"+
+    "Sus principales atractivos se concentran en el área metropolitana, sobre todo en la Macroplaza y sus alrededores.\n"+
+    "Allí se levantan edificios civiles y religiosos, así como interesantes y variados museos, que testimonian cuatro siglos de historia.\n\n"+
+
+    "Para comer sabrosón no hay como Nuevo León. Las influencias judía, española y tlaxcalteca son algunas de las que han contribuido a enriquecer \n"+
+    "el panorama culinario de la región.A falta de corderos, los judíos españoles utilizaron al cabrito como sustituto en sus tradiciones\n"+
+    "gastronómicas. El famoso “machito”, hecho con tripa de caprino, tan popular en Monterrey, es una derivación del “zarajo” de Castilla. \n"+
+    "La semita, ese singular pan dulce con nuez, también es herencia de conquistadores con antepasados sefarditas.La aportación indígena se aprecia,\n"+
+    "por ejemplo, en el otro pilar de la gastronomía nuevoleonesa: la carne seca o machacado de res.\n\n"+
+
+    "Algunos especialistas señalan que los tlaxcaltecas luego de que llegaron a estas tierras, ante la dureza del clima y la pobre agricultura \n"+
+    "tuvieron que encontrar la forma de conservar la carne.\n\n"+
+
+    "Debido a la falta de implementos para conservarla, lo único que pudieron hacer fue secarla al sol, ese sol abrasador que determina el clima\n"+
+    "de gran parte del estado, durante una buena parte del año.El resultado de ese primitivo proceso es el delicioso machacado, platillo que ningún\n"+
+    "regiomontano o visitante excluye de su desayuno.\n";
+    JOptionPane.showMessageDialog(null,descripcion);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Tamaulipas"
+    when m: Mensaje(status==Mensaje.valores.Tamaulipas,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,"Tamaulipas\nSus playas La Carbonera, Miramar, Bagdad, Soto la Marina y Barra del\n"+
+    "Tordo son las más visitadas por los turistas, gracias a la tranquilidad\n"+
+    "y belleza de sus aguas, traídas a estas tierras por el Golfo de México.\n"+
+    "Sobre ellas se puede bucear, esnorquelear, surfear, pasear en kayak y\n"+
+    "pescar. Continuando con las travesías por agua, no se puede dejar de\n"+
+    "citar el apasionante y rápido descenso por el cauce de alguno de los\n"+
+    "ríos que recorren el estado.\n\n"+
+    "El senderismo, la caminata, el campismo, la escalada en roca y el\n"+
+    "ciclismo de montaña son algunos de los deportes que se pueden practicar\n"+
+    "al recorrer los caminos tamaulipecos, que ofrecen a la vista paisajes\n"+
+    "maravillosos. La caza es otro deporte que puede desempeñarse\n"+
+    "perfectamente en Tamaulipas, dado que aquí  se encuentra uno de los\n"+
+    "ranchos cinegéticos más importantes del país.\n\n"+
+    "Tamaulipas es un estado que se puede saborear a través de su nutrido\n"+
+    "catálogo culinario. La especialidad de la casa es la popular carne a\n"+
+    "la tampiqueña, misma que se puede disfrutar  al compás de un\n"+
+    "tradicional huapango, género musical que remarca la esencia cultural\n"+
+    "tamaulipeca. Por último, artesanías elaboradas a partir de materiales\n"+
+    "como barro, madera, gamuza, fibras vegetales y objetos marinos, reflejan\n"+
+    "la imaginacion de los artesanos locales");
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Durango"
+    when m: Mensaje(status==Mensaje.valores.Durango,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Su nombre significa más allá del agua, los españoles le dieron éste nombre en honor a la ciudad deDurango (Vizcaya), España.\n"+
+    "Aunque la capital del estado es conocida popularmente comoDurango su nombre oficial es \"Victoria de Durango\" en honor al primer presidente\n"+
+    "de México,Guadalupe Victoria quien fuera originario de este estado. Las características naturales de Durango maravillan a sus visitantes,\n"+
+    "tanto por su belleza como por su diversidad, ya que sus paisajes abarcan bosques, cañones, valles, ríos, lagunas, desiertos, huertas y viñas.\n"+
+    "Una amplia región del oeste del estado se encuentra ocupado por la Sierra madre Occidental; al noreste de Durango se localiza la Zona del\n"+
+    "Silencio. Todo su entorno está plagado de formaciones En las mesas tradicionales de Durango, el viajero sentirá la irresistible tentación\n"+
+    "de la carne. Y será difícil ignorar su sugestiva presencia, resistirse a las fragancias exquisitas e instigadoras, reprimir el deseo de\n"+
+    "entregarse o rendirle culto al sabor festivo y contundente de las ricuras gastronómicas que se preparan en las cocinas y fogones de esta\n"+
+    "tierra campestre y ganadera, mexicana. Al caer en la tentación, usted se deleitará con las inolvidables carnes adobadas y los proverbiales\n"+
+    "quesos de Durango, dos de los ingredientes principales de una cultura que tiene en el caldillo durangueño (a base de carne seca y chile)\n"+
+    "a su potaje estelar.\n\n"+
+
+    "Pero los \"pecadillos gastronómicos\" no terminan ahí, sino que incluyen otras recetas sublimes como el lomo relleno de cerdo, sazonado\n"+
+    "con vino blanco y condimentado a veces con miel de maguey; el asado de venado, acompañado con trozos de jamón y embadurnado con mantequilla;\n"+
+    "y las gallinas borrachas de Durango, un guiso al que se le agrega jamón, chorizo, pasas y almendras.\n"+
+    "El queso flameado es otra de las ricuras que conquista el paladar de los viajeros cosmopolitas, quizás por la gran calidad de este producto\n"+
+    "lácteo considerado el mejor de México, en particular los fabricados por los menonitas, una comunidad de raíces alemanes que se caracteriza\n"+
+    "por su profunda religiosidad. Ellos arribaron al estado a comienzos del siglo XX.\n"
+ 
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Zacatecas"
+    when m: Mensaje(status==Mensaje.valores.Zacatecas,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Zacatecas es uno de los 32 estados de México. Es famosa por sus depósitos de plata y demás minerales. Esta es una ciudad colonial y se\n"+
+    "la considera que es una de las hermosas del norte mexicano, ya que posee una abundante y rica historia, una imponente arquitectura.\n"+
+    "Zacatecas es un destino fabuloso para visitar en cualquier época del año con la familia o lo d amigos. Junto con Puebla y Oaxaca son\n"+
+    "las tres ciudades Coloniales más importantes del país. Una gran evidencia de esto son los edificios con estilo colonial, como por ejemplo\n"+
+    "la Iglesia Santo Domingo. Esta Iglesia es el refugio de los mejores retablos barrocos, de los cuales el más resaltante y llamativo es\n"+
+    "el retablo dedicado a la Virgen de Guadalupe. El Centro Histórico fue declaradoPatrimonio Cultural de la Humanidad, ya que se encuentra\n"+
+    "enclavado en medio de un valle montañés con calles de formas caprichosas y angostas escaleras que van hacia arriba y hacia abajo, además\n"+
+    "de construcciones impactantes de estilo barroco que a primera vista dejan sin habla a todo aquel que los contempla.  \n"+
+    "Sin menos importancia, La Catedral de Zacatecas es otro atractivo que deja pasmado a todos los que la visitan. Lo que mas llama la atención\n"+
+    "de esta extraordinaria construcción es su fachada, la cual esta conformada por tres cuerpos y tallada por indígenas artesanos en cantera rosa.\n\n "+
+
+    "Dentro de la amplia gama de ricos platillos típicos regionales, destaca el Asado de Boda, llamado así por que es muy común servirse en \n"+
+    "las bodas regionales. Se prepara a base de lomo de cerdo cortado en trocitos, el cual se fríe y se le agrega una salsa de chiles anchos \n"+
+    "rojos, fritos en manteca; se sazona con pimienta, clavo de olor, canela, hoja de laurel, cáscara de naranja, pan dorado (para espesarlo),\n"+
+    "tablilla de chocolate, azúcar y sal al gusto, al final se sirve con rebanadas de cebolla cruda y se acompaña de sopa de arroz.\n"+
+    "Otros platillos de consumo y demanda popular son: la birria de carnero, el menudo, el pozole rojo, las enchiladas, la carne adobada en \n"+
+    "chile rojo y las gorditas rellenas de guisado, entre otros.\n\n"+
+
+    "La bebida típica zacatecana es el mezcal de Huitzila, sin embargo, Zacatecas es también una excelente región vinícola, en donde se producen\n"+
+    "exquisitos vinos de mesa: tintos, blancos y rosados. Como postres, están las deliciosas cocadas jerezanas, las melcochas y charamuscas,\n"+
+    "los ates de guayaba y membrillo, los jamoncillos de leche, el queso y miel de tuna, así como los tradicionales dulces de: camote, biznaga,\n"+
+    "chilacayote y calabaza.\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "SanLuisPotosi"
+    when m: Mensaje(status==Mensaje.valores.SanLuisPotosi,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+   "Conocida como la \"Ciudad de los siete barrios\", San Luis Potosí conserva una tradición minera, con calles perfectamente dibujadas que\n"+
+    "aun guardan el trazo que les dio nacimiento, edificios admirables por su estilo y equilibrio y habitantes que llevan a la tradición como\n"+
+    "aquello sagrado que se preserva como un tesoro, así esSan Luis Potosí, destino que aquí le presentamos. En el siglo XVII fue construida\n"+
+    "la Capilla de Aranzazu, con un particular estilo oriental. A 220 Km.. de San Luis Potosí esta situada Xilitla, aquí encontrará una serie\n"+
+    "de estructuras surrealistas que el poeta escocés Edward James comenzó en el año 1945 y que al verlas en medio de una vegetación tan \n"+
+    "exuberante les dará un valor aún mayor. En 1904, se construyó el Teatro de la Paz. El mismo guarda una gran semejanza con al Opera de Paris,\n"+
+    "posee características neoclásicas y su interior está decorado con pinturas de Fernando Leal.\n\n"+
+
+    "Existen en San Luis Potosí dos templos que el turista no puede dejar de visitar. Uno de ellos es el Templo del Carmen, considerado una de las\n"+
+    "más impresionantes obras de la arquitectura barroca. Y El otro templo es el de la Compañía de Jesús, aun más antiguo que el anterior.\n\n"+
+
+    "Fue además el escenario de ceremonias religiosas en la época prehispánica. En sus alrededores podrá descubrir bellos parajes naturales como\n"+
+    "la Laguna de Media Luna, ideal para practicar el buceo, el campismo y el ecoturismo; el Sótano de las Golondrinas, increíble abismo de\n"+
+    "512 m de profundidad y el Sótano de las Guaguas, cuya bóveda de 291 m de altura es una de las más grandes del planeta; sin olvidar el\n"+
+    "\"pueblo fantasma\" de Real de Catorce, antigua población minera llena de magia y leyenda.\n"+
+    "La gastronomía en el estado es muy variada, por ejemplo, se elaboran los nopalitos guisados con jitomate, cebolla, cilantro, vinagre o aceite;\n"+
+    "el queso de tuna, hecho con el jugo de la tuna cardona; el colonche, bebida alcohólica resultado de la fermentación de la tuna cardona;\n"+
+    "el aguamiel, producto natural que se forma dentro del maguey, las famosas enchiladas potosinas, etcétera.\n\n"+
+
+    "Cecina y zacahuil en La Huasteca; enchiladas huastecas y enchiladas potosinas; pulque, aguamiel, colonche (bebida) en casi todo el estado;\n"+
+    "guiso borracho en la Sierra Madre; tuna, queso de tuna, cajetas, jamoncillos y dulces de leche en el Panino Ixtlero, Quesadillas rojas, \n"+
+    "Enchiladas potosinas, Caldo huasteco, Mole de olla, Tamborcitos, Enchiladas en cacahuate, Pastel indio, Chochas con cerdo, Guiso borracho,\n"+
+    "Fiambre potosino, Palmito, Frijoles con cola de cerdo, Zacahuil, Postres: queso de tuna, cajeta de leche de cabra, panecitos de pulque,\n"+
+    "gelatina de tuna, capirotadas, Bebidas: atole de aguamiel, pulque y colonche (tunas maceradas en alcohol, azúcar y canela).\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Guanajuato"
+    when m: Mensaje(status==Mensaje.valores.Guanajuato,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "El Estado de Guanajuato es una de las 31 entidades federativas deMéxico y se ubica en la región central del territorio nacional.\n"+
+    "Está localizado al oriente del estado deJalisco, al sur de los estados deZacatecas y de San Luis Potosí, al poniente del estado deQuerétaro\n"+
+    "y al norte del estado deMichoacán. La palabra Guanajuato viene de los vocablos QUANAX y HUATO del idioma purépecha que significa \n"+
+    "\"Lugar o cerro de las ranas\". Le dieron este nombre debido a que los cerros que se encuentran alrededor de la ciudad de Guanajuato,\n"+
+    "a los antiguos purépechas les parecio que tenian forma de ranas.Hoy su nombre oficial es Estado Libre y Soberano de Guanajuato\n"+
+    "y geográficamente se divide en tres regiones separadas por la sierra homónima. La región al norte de la sierra se conoce como los Llanos\n"+
+    "del Norte, una región árida donde predominan las llanuras, las mesetas y los cerros rocosos. \n"+
+    "La segunda región es la misma sierra de Guanajuato, donde predominan las cañadas y las laderas abruptas alternando con algunas mesetas\n"+
+    "alargadas. Su altura promedio es 2.305 metros sobre el nivel del mar y su suelo, tipo chernozem, se considera ideal para la ganadería. \n"+
+    "La tercera región, y quizás la más famosa a nivel nacional, es la región del Bajío, que comprende la llanura ubicada al sur de la sierra \n"+
+    "de Guanajuato. Se caracteriza por sus labores agrícolas altamente tecnificadas, con precipitaciones pluviales anuales del orden de los\n"+
+    "700 mm en promedio (una de las mejores en el país) y por ser uno de los bastiones más conservadores del catolicismo mexicano.\n\n"+
+
+    "La población acostumbra las carnitas de cerdo estilo Jalisco (rojas), birria, menudo, chicharrones duros y de lonja, pan de maíz, pambazos,\n"+
+    "rosquillas, gorditas de horno, gordas de elote, enchiladas, atoles, los encurtidos, frutas en vinagre de piña y manzana, y el mole rojo\n"+
+    "al estilo muy propio de la región, el cual es reservado para las comidas de fiesta.\n\n"+
+
+    "El día de Todos los Santos y de Muertos, el fiambre: fruta en vinagre con embutidos de cerdo y desde luego, el postre muy leonés, \n"+
+    "el guayabate o cajeta de guayaba con camote morado.\n\n"+
+
+    "Se consumen principalmente los dulces de elaboración familiar, como las frutas cubiertas, las cocadas, las conservas, las jaleas,\n"+
+    "los buñuelos, el camote cocido y, el arroz con leche. Y, no olvidamos, las \"chivitas\" o palomitas de maíz con mantequilla.\n"+
+    "Y, cada vez son mas raros los vendedores, que anuncian con gritos la venta de sus Productos: ¡Raiz!: Camote achicalado en miel de piloncillo,\n"+
+    "y las \"!Jáletinas!\" en sus vistosas portaviandas de cristal.\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Queretaro"
+    when m: Mensaje(status==Mensaje.valores.Queretaro,myMessage:message);
+    then
+    String descripcion=null;
+    JOptionPane.showMessageDialog(null,
+    "Si usted está pensando en sus próximas vacaciones y si desea que sean dinámicas y muy divertidas, entonces el destino es Querétaro.\n"+
+    "Aquí podrá realizar sorprendentes paseos por la ciudad y sus alrededores para conocer el legado arqueológico y arquitectónico que otras\n"+
+    "culturas dejaron. Pero si lo que prefiere es disfrutar de los paisajes naturales y desempeñar actividades que lo alejen de la rutina,\n"+
+    "solo basta con llegar hasta parajes de gran belleza y disfrutar de todas las alternativas. Bajo la influencia de Teotihuacan y entre \n"+
+    "los años 200 y 600 tuvieron su mayor auge sitios arqueológicos como Ranas y Toluquilla. Se encuentran en la localidad de San Joaquín\n"+
+    "y se recomienda recorrerlas con un guía. Ranas es una zona habitada por huastecos desde hace 1400 años. Esta dotada de terrazas,\n"+
+    "juegos de pelota y edificios de piedra, lodo y laja.La arquitectura dejó su huella en Querétaro. Aquí le presentamos los sitios mas\n"+
+    "fascinantes para no perderse nada.El Acueducto es una obra admirable y se considera el símbolo de Querétaro.\n"+
+    "La Catedral es un edificio que sorprende por los estilos combinados en su construcción. La fachada, entre barroca y neoclásica combina\n"+
+    "la cantera y tezontle. Se trata de una obra maestra que fue edificada entre los años 1786 y 1800.\n\n"+
+
+    "La gastronomía de Querétaro incluye platillos que se han preparado en esta región desde el siglo XVI y han conservado la misma sazón\n"+
+    "hasta los tiempos actuales; la gran mayoría de estos platillos incorpora ingredientes indígenas, mestizos y contemporáneos tales como\n"+
+    "el maíz, el chile, las cactáceas y frutas típicas de la región; las biznagas, el huamiche, los xoconostles transformados en deliciosos\n"+
+    "dulces, las tortillas con sello otomí; el delicioso tamal que se envuelve en hojas de papatla, llamado Sacahuil, y las bebidas típicas\n"+
+    "como el Simichol, hecha de maíz fermentado y el Charape, hecho de piloncillo, son solo algunos ejemplos de esta exótica gastronomía.\n\n"+
+
+    "La cocina queretana esta ligada a las fiestas cívicas, tradiciones religiosas y a los ciclos anuales de cosecha que coinciden con las\n"+
+    "celebraciones patronales, como la de la Santa Cruz, la Semana Mayor y los fieles difuntos. Durante la fiesta del santo patrono, \n"+
+    "se sirven garbanzas con azafrán y tortillas de colores.\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Hidalgo"
+    when m: Mensaje(status==Mensaje.valores.Hidalgo,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Hidalgo Se localiza en la región Centro de México. Cuenta con un clima templado, abundantes recursos forestales y minerales. \n"+
+    "Su población le sorprenderá por su vasta herencia cultural. En esta entidad podrá visitar Real del Monte, antiguo pueblo minero,\n"+
+    "muy pintoresco, con edificaciones coloniales muy preciadas. También podrá visitar algunas de sus viejas minas, como la famosa Mina \n"+
+    "de Acosta. Podrá alojarse en ex-haciendas mineras, hoy convertidas en lujosos hoteles para recorrer los Prismas Basálticos,\n"+
+    "curiosas formaciones geológicas únicas en la República, la Capilla de La Virgen Negra, la Presa San Antonio y el Parque Nacional El Chico,\n"+
+    "miradores naturales que le permitirán practicar deportes de aventura como el campismo y la escalada en roca, además de la pesca.\n"+
+    "Famoso por su rica gastronomía, se destacan los pastes (especies de empanadas de origen inglés) y la barbacoa de horno.\n"+
+    "No puede dejar de visitar la zona arqueológica de Tula, uno de los centros ceremoniales más importantes de México, considerado como el \n"+
+    "emblema delestado de Hidalgo.\n"+
+    "Hidalgo se caracteriza por su gran diversidad gastronómica. Sus platillos son capaces de satisfacer desde un simple antojo, hasta el más\n"+
+    "exigente paladar con exóticos platillos que son realizados de una manera tradicional o bien, a través de las más sofisticadas técnicas \n"+
+    "culinarias. Son innumerables los platillos típicos de este estado sin embargo los más representativos son estos:\n\n"+
+
+    "El Paste es el platillo típico de Real del Monte. Es un panecillo (en ocasiones hojaldrado) relleno tradicionalmente de papa con carne\n"+
+    "aunque actualmente existen de distintas combinaciones de ingredientes. Fue traído, junto con el Fútbol por los ingleses en el siglo XIX \n"+
+    "que vinieron a explotar las minas de plata en este municipio hidalguense ya que era cocinado para almorzarlo en las minas debido\n"+
+    "a su facilidad de transportación y degustación.\n"
+ 
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Puebla"
+    when m: Mensaje(status==Mensaje.valores.Puebla,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Como toda la región centro de México, Puebla es también un destino donde el estilo de cada edificio y la conservación de aquellos\n"+
+    "levantados hace ya cientos de años son una prioridad de arquitectos y artistas. Caminar por las calles de Puebla es presenciar la armonía\n"+
+    "de cada componente, es como hallarse en un sitio dibujado por manos mágicas. La historia dice presente en cada manifestación\n"+
+    "arquitectónica, la calidez de su gente hace que el visitante se sienta como en su casa y la calidad de todos los servicios le regalarán\n"+
+    "las mejores vacaciones. Para los amantes de los vestigios arqueológicos de culturas milenarias, a solo 12 Km. de Puebla existe un \n"+
+    "sitio que puede sorprenderlos. Se trata de Cholula, zona de siete pirámides superpuestas. Dos fenómenos destacan aquí.\n"+
+    "El primero de ellos es la Pirámide de Mesoamérica, la mas grande de las siete, con un basamento de 450 metros de cada lado y una altura\n"+
+    "de 65 metros. La misma data del año 800 antes de Cristo. El segundo fenómeno es el fresco llamada Los Bebedores al que solo es posible\n"+
+    "acceder a través de túneles.\n\n"+
+
+    "La arquitectura es el plato fuerte en Puebla, pues usted será partícipe de las mas fascinantes construcciones, entre las que destacamos\n"+
+    "las siguientes:La Casa del Deán, que data del siglo XVI y que fue el hogar del deán de la Catedral, Tomás de la Plaza.\n"+
+    "En su interior penden pinturas murales y otras que representan mitos de la antigüedad. El magnífico estilo \"Barroco poblano\" es posible\n"+
+    "de admirar en el Patio de los Azulejos, edificado por el año 1679. Es imponente por su belleza y el equilibrio de cada componente.\n\n"+
+
+    "La gastronomía de Puebla está llena de platillos típicos que hacen de la ciudad un lugar inolvidable. Destacan los envueltos de mole,\n"+
+    "las chanclas, los tamales pulacles, los tlayoyos, las chalupas, los gusanos de maguey con salsa borracha, los escamoles a la mantequilla,\n"+
+    "la sopa de elote y rajas, el arroz a la mexicana, la sopa de habas frescas y de hongos. Además se puede saborear del sabor especial\n"+
+    "de su mole de olla o el mole del Convento de Santa Rosa. La tinga poblana, el guacamole, el pescado en pipián rojo, la barbacoa de puerco,\n"+
+    "las indias vestidas, los chiles en nogada, el cuitlacoche con rajas, el chitamal, el frijol con xocoyolis acompañado de guacamole\n"+
+    "de pipicha y salsa de guatomate, no deben despreciarse.De postre puede disfrutarse una copita de rompope de Santa Clara, de arroz con leche,\n"+
+    "de Tlaxcales, de lágrimas de obispo, de figuritas de pasta de almendra o de los típicos camotes de Santa Clara.\n");
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Oaxaca"
+    when m: Mensaje(status==Mensaje.valores.Oaxaca,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Llegar a Oaxaca es asomarse a una ventana y ver a su través la nitidez de un ambiente que fue pintado de todos los colores, pues \n"+
+    "antiguamente la cultura olmeca usó los grises y la naturaleza lo combinó con verdes y marrones mezclados con el azul intenso del cielo.\n"+
+    "El Monte Alban, dueño de las fabulosas manifestaciones olmecas que datan del siglo VII antes de Cristo, junto a Oaxaca, fueron\n"+
+    "declaradas Patrimonio de la Humanidad por la UNESCO. En su viaje a Oaxaca, no deje de vivir una experiencia en este misterioso\n"+
+    "destino mexicano. El Edificio de los Danzantes, ubicado en Monte Alban es admirable por las figuras en bajorrelieve de personas danzando.\n"+
+    "En el mismo lugar también se sitúa el Juego de Pelota. En lugar específico en donde se juega tienen forma de dos letras \"t\" unidas\n"+
+    "por la base, pero el patio central posee bancos desde donde salen muros de siete metros de altura. Otra importante obra arqueológica \n"+
+    "es Mitla, centro ceremonial prehispánico que los mitos indican que era la morada de los muertos zapotecos y lugar donde habitaron los\n"+
+    "sacerdotes. Éstos son sólo algunos de los lugares turísticos del estado de Oaxaca que podrá recorrer durante su estadía.\n"+
+    "Mole negro, Mole rojo, Mole coloradito, Mole almendrado, Mole chichilo, Mole amarillo, Hígados de pollo estilo Oaxaca, Tasajo, Pozole mixteco,\n"+
+    "Cecina, Caldo de gato, Chapulines, Tlayudas, Caldo de garbanzo, Salchichas oaxaqueñas, Arroz chepil, Caldillo de vigilia, Chiles rellenos\n"+
+    "de sardinas, Salsa de chiles serranos, Salsa de hormiga chicatana, Tamales de chepil, Tamales de pescado del Istmo, Chiles de agua rellenos\n"+
+    "de quesillo, Chiles pasilla rellenos de picadillo, Chileajo, Chacales al ajillo, Calamares en su tinta, Hojaldre de cazón, Chichilo,\n"+
+    "Salsa de gusanito, Guiso de iguana, Armadillo guisado, Escabeche de pulpo, Caldo de nopales, Empanadas de amarillo crudo de Ocotlán.\n\n"+
+
+    "Postres típicos:\n"+
+    "Nicoatole, Leche quemada, Buñuelos, Nieve de tuna y leche quemada, Pan de yema con chocolate, y toda la variedad de dulces regionales\n"+
+    "(nenguanitos, marquesote, Rosca de yema, empanadas de lechecilla, cocadas, mamones, etc.)\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Guerrero"
+    when m: Mensaje(status==Mensaje.valores.Guerrero,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Las comidas de Guerrero son de gran variedad. Confluyen tres grandes corrientes culinarias: la indígena, la española y la francesa.\n"+
+    "Predomina la primera, pues los ingredientes dominantes son: el maíz, el chile, el fríjol y la carne. De ascendencia indígena son los\n"+
+    "moles rojo, verde, clemole, ayomole, huaxmole y todos los chilmoles o salsas de chile; las tortillas, memelas, picadas, chalupas,\n"+
+    "tostadas, totopos; Los atoles blancos y dulces combinados con diversas frutas; los pozoles blanco, verde y de elote o elepozole; \n"+
+    "los frijoles se preparan de muchas maneras y son de alimento cotidiano. Además del chocolate y los platillos basándose en jitomate\n"+
+    "y tomate de cáscara.\n"+
+    "De origen español es el pan de trigo, blanco o biscocho incluyendo las \"chilpancingueñas\", las semitas tixtlecas, marquesote chilapeño, etc.\n"+
+    "En Chilapa se preparan deliciosos platillos franceses que llevaron las monjas del \"Verbo Encarnado\" en el siglo XIX y enseñaron a las \n"+
+    "alumnas de su Colegio.\n\n"+
+
+    "Las regiones tienen platillos especiales que preparan las familias y ofrecen a sus invitados: salsa y mole de jumil, en Taxco;\n"+
+    "tamales de fríjol, calabaza o ciruela, en Tepecuacuilco; pichones y codornices en Iguala; adobo de cochinita, en Huitzuco; \n"+
+    "panques de arroz y mantequilla, en Teloloapan; chalupas fritas cubiertas de carne deshebrada, cebolla y salsa de chipotle,\n"+
+    "así como gallina rellena, en Chilapa; fiambre, especia y barbacoa, en Tixtla; pulpo enamorado y camarones a ajillo, en Acapulco; \n"+
+    "caldo de langostinos, de iguana cuatete en Costa Chica; pescado a la talla y relleno de puerco en Costa Grande; mole de iguana \n"+
+    "o de armadillo en Tierra Caliente; totopos y barbacoa de chivo, en La Montaña. En todo el Estado se preparan barbacoas de res,\n"+
+    "chivo, carnero y pollo; arroz y verduras en variadas combinaciones.\n"
+
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Jalisco"
+    when m: Mensaje(status==Mensaje.valores.Jalisco,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Jalisco es el tercer estado más poblado de México y uno de los más importantes en cuanto a actividades económicas, comerciales \n"+
+    "y culturales se refiere. Entre los lugares más importantes fuera del área de la capital destacan Puerto Vallarta, Tapalpa, Ajijic,\n"+
+    "Chapala y Ciudad Guzmán (Zapotlán el Grande). Su capital es la ciudad de Guadalajara, una ciudad virreinal cuya zona metropolitana\n"+
+    "(compuesta por los municipios de Juanacatlán, El Salto, Tlaquepaque, Tonalá y Zapopan) es la segunda aglomeración urbana más grande\n"+
+    "de México después de la capital.\n"+
+    "En cuanto a sus productos turísticos, Jalisco presenta con orgullo sus hermosas playas, lagunas y también santuarios. \n"+
+    "Entre las bellezas naturales se destacan el Lago de Chapala, el lago natural más grande de todo México, Los Cazos y La Cascada,\n"+
+    "espectaculares caídas de agua de 35 metros de altura, situadas en Puerto Vallarta, un bello litoral donde se puede disfrutar de más \n"+
+    "de 16 playas, practicar actividades como la pesca, buceo, esquí, surfing, entre otras y también se puede realizar excursiones en yate,\n"+
+    "automóvil y a caballos y San Juan de los Lagos, el santuario católico más visitado del país junto con la Basílica de Guadalupe.\n\n"+
+
+    "Guadalajara cuenta con una gran variedad de platillos típicos, como pozole, tamales, tostadas, Sopes, Enchiladas, Tacos, Capirotada\n"+
+    "y Pollo a la valentina. Pero algo que lo distingue totalmente de todo el país son las \"tortas ahogadas\" que consiste en un bolillo\n"+
+    "con carne frita de cerdo cortada en trozos y salsa. Otra de las comidas típicas de Guadalajara y todo el estado de Jalisco es la \"birria\",\n"+
+    "la cual normalmente es hecha con carne de chivo, de res o cabro. La birria artesanal se hace en un horno especial que puede estar bajo\n"+
+    "tierra y se cubre con hojas de maguey, la carne se puede mezclar en un caldo de jitomate o comer por separado. El postre típico tapatío;\n"+
+    "Jericalla.\n"+
+    "Las Tortas Ahogadas es una de las comidas más tradicionales de Jalisco. La Torta Ahogada se compone de un bolillo que su interior se \n"+
+    "le agrega trozos de carnitas fritas de cerdo, bañada por una salsa de jitomate y por una salsa de Chile. Dependiendo de la cantidad\n"+
+    "de Chile que se le agregue a la torta, esta será ahogada o media ahogada.\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Nayarit"
+    when m: Mensaje(status==Mensaje.valores.Nayarit,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Quienes visitan Nayarit se encuentran con un estado privilegiado en recursos naturales, que posee un clima muy cálido en gran parte\n"+
+    "de su territorio. Se destaca la biodiversidad ideal para especies tropicales de flora y fauna, además de ser un estado rico también\n"+
+    "en expresiones histórico - culturales por su patrimonio prehispánico y colonial al igual que sus tradiciones, su arte culinario \n"+
+    "paisajes y hermosas playas. Este bello lugar es una muy buena opción para conocer, donde se conjugan la cultura, historia, aventura\n"+
+    "y maravillas naturales con la calidez de sus habitantes para dar vida a un excelente destino turístico.\n\n"+
+
+    "En tiempos prehispánicos fue asentamiento de grupos indígenas: Coras, Huicholes, Tepehuanos y Mexicaneros,los cuales se encuentran\n"+
+    "actualmente asentados en las agrestes montañas del Nayar perteneciente a la cordillera de la Sierra Madre Occidental.\n"+
+    "Hacia el poniente tiene una importante franja costera en el Océano Pacífico. Su nombre proviene de Nayar o Nayali y rinde honor \n"+
+    "al gobernador cora del siglo XVI que opuso una férrea resistencia al proceso de evangelización de los conquistadores en su sierra,\n"+
+    "significa \"Hijo de Dios que está en el cielo y en el Sol\".\n\n"+
+
+    "Pescado Sarandeado: Es el platillo más típico del estado y su origen proviene de la Isla de Mexcaltitán. Este manjar náhuatl se prepara\n"+
+    "con preferencia con el pescado \"pargo\" por sus propias características de tener poca grasa en su piel, que es lo que hace que no se \n"+
+    "reseque la carne al exponerla al calor.El pescado se ahuma, con leña de mangle sobre el tendido de varillas de palma, se prepara\n"+
+    "previamente con una salsa de limón, salsa de soya; chile. Se sirve en platones adornado con rodajas de cebolla, jitomate y pepino,\n"+
+    "acompañadas de tortillas recién hechas, tostadas y una salsa especial (de la casa) ¡único!\n\n"+
+
+    "Pollo al estilo Ixtlán del Río: El pollo después de cocido se fríe en manteca.Se sirve con papas cocidas y fritas en el mismo aceite, \n"+
+    "calabacitas a la vinagreta y lechuga picada; todo esto es bañado con una salsa de jitomate con bastante orégano molido.\n"+
+    "Pipian de pepitas de calabaza: Este riquísimo guiso se prepara con pepita de calabaza, cacahuate, granos tostados y molidos con el caldo\n"+
+    "de la carne con que se sirve. La salsa a diferencia de otras entidades donde también se prepara, queda con un color café claro.\n"+
+    "Se sirve con tortillas y frijoles refritos.\n\n"+
+
+    "Frijoles puercos: Para este platillo se utilizan los frijoles \"azufrados\", que es una variedad que se cultiva en la región,\n"+
+    "exclusivamente para consumo local, por lo que es desconocido en otras entidades.Los frijoles ya cocidos se cocinan en manteca de cerdo,\n"+
+    "a la que previamente se le han frito chiles de árbol y chorizo. Posteriormente se les agrega queso añejo o de cotija y se sirven \n"+
+    "con totopos. En algunos lugares de la costa lo sirven con sardinas.\n"
+ 
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Colima"
+    when m: Mensaje(status==Mensaje.valores.Colima,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "El Volcán de Colima, es un elemento icónico para la historia de este estado, aunque este macizo montañoso se encuentre en su mayor \n"+
+    "parte en el estado vecino deJalisco. El Nevado de Colima sí pertenece totalmente al estado deJalisco y llega a tener esporádicas\n"+
+    "nevadas en inviernos muy húmedos.El nombre del estado y laciudad de Colima ha sido interpretado erróneamente en distintas ocasiones.\n"+
+    "Las últimas investigaciones dicen que Colima, viene del nahuatl Acolman, que significa \"lugar donde tuerce el agua\" o \"lugar donde hace\n"+
+    "recodo el río\".Colima es la Ciudad de la Palmeras por las grandes extensiones adornadas con estilizadas figuras de hojas verdes que \n"+
+    "se funden con las construcciones coloniales que otorgan un sabor provinciano.\n"+
+    "Hay mil y una formas de descubrir los encantos de la Ciudad de Colima, realizando innumerables y placenteras actividades, para todos\n"+
+    "los gustos. Son clásicos para no perderse las visitas a la Catedral, de estilo neoclásico en cantera rosa; el Palacio de Gobierno,\n"+
+    "que en el interior guarda los magníficos murales del pintor colimenseJorge Chávez Carrillo, donde se ilustran temas históricos relativos \n"+
+    "a la Conquista, la Colonización y la Guerra de Independencia. En este lugar la gente conserva el gusto por las ferias, fiestas y\n"+
+    "celebraciones de antaño que mezclan la religión con el festejo popular.\n\n"+
+
+    "La cocina de Colima es una de las menos conocidas de la abigarrada gastronomía mexicana, pero eso no le quita la virtud de ser sabrosa\n"+
+    "y ecléctica. En la zona playera se utilizan mucho los productos marinos para confeccionar platillos que son parte del muestrario culinario\n"+
+    "de la Costa del Pacífico mexicano. Tierra adentro, los guisos se vuelven más originales ya que hacen uso de la amplia fauna y vida\n"+
+    "vegetal autóctona. Por ejemplo, uno de los ingredientes más cotizados es la iguana, que se cocina de diversas formas, en salsa de cacahuate,\n"+
+    "a las brasas, almendrada etc. No vamos a ofrecerles uno de esos guisos, no sólo porque nos simpatizan estos animalitos, sino porque además \n"+
+    "les iba resultar difícil encontrar una iguana en el súper. Mejor les ofrecemos el famoso pescado \"zarandeado\";  unas cocadas,\n"+
+    "postrecito tradicional y para terminar, un cóctel -o más bien bajativo- bien fuertote que los va a poner a luchar  “contra viento y marea”\n"+
+    "para no quedar tendidos en el suelo.\n"+
+    "Es el famoso Ponche de Comala. Se prepara con un mezcal local llamado \"Tuxa\", pero de no conseguirlo se puede usar mezcal común o incluso\n"+
+    "aguardiente. Aunque puede ser de tamarindo, ciruela pasa e incluso de cacahuete, el más tradicional es el de granada.\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Michoacan"
+    when m: Mensaje(status==Mensaje.valores.Michoacan,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "La gastronomía de Michoacán es muy variada y rica. Si visita la ciudad, pruebe las Corundas michoacanas, los uchepos, las nueces\n"+
+    "en escabeche, el licor de membrillo, las Trompas de puerco con salsa de Lago, la sopa purépecha, la crema fría de aguacate, \n"+
+    "la sopa tarasca, la sopa prehispánico o los tamales de harina acompañados de atole negro o de grano.Para combatir el calor tome \n"+
+    "la fresca agua de obispo o la guacamaya. Puede saborear los diferentes guisos con huevo comoel Virrey de Mendoza, el aporreadillo,\n"+
+    "el huevo blanco de Pátzcuaro rebozado o en escabeche. De postre disfrute del delicioso pastel de Macadamia, de plátano, los chongos\n"+
+    "zamoranos, los tamales de zarzamora, la sopa de chocolate de metate.Al visitar Michoacán, no se puede dejar de disfrutar de sus\n"+
+    "exquisitos platillos como el pollo placero, las corundas de maíz o trigo, la sopa tarasca, las enchiladas morelianas, el chupiro,\n"+
+    "el pescado blanco y el caldo de charal estilo Pátzcuaro.Para acompañarlos, nada mejor que el rompope o la charanda, aguardiente de\n"+
+    "caña de azúcar de un sabor especial. Y para cerrar con broche de oro, sus deliciosos dulces como las morelianas, el alfajor de coco,\n"+
+    "la capirotada, la charamusca o tromada, el flan moreliano, los chongos zamoranos y las nieves de pasta de Pátzcuaro.\n\n"+
+
+    "Los platillos típicos de la región son: \"La morisqueta\" (arroz blanco cocido, con frijoles fritos y salsa guisada con queso o carne)\n"+
+    "y el aporreadillo (tiras de carne seca guisadas en salsa roja). También se elaboran una especie de tamales de maíz tierno denominados\n"+
+    "uchepos y otros envueltos en la hoja de milpa en forma de bola con un poco de salsa y carne llamadas corundas.Platillos típicos: \n"+
+    "Pozole, Corundas michoacanas, Caldo michi, Col en nogada, Tortilla ranchera, Caldo de charal estilo pátzcuaro, Chupiro, Charales secos,\n"+
+    "Chapatas, Miguichi, Enchiladas morelianas, Pescado blanco de pátzcuaro, Chupiro, Carnitas, Lomo de res en pepitoria, Mole de guajolote,\n"+
+    "Uchepos, Sopa huitzimangan, Sopa purépecha. Postres típicos: Chongos zamoranos, Ate de membrillo, Capirotada, Cajeta, Pastel de plátano,\n"+
+    "Helado de pasta.Además de las deliciosas bebidas tipicas como la Charanda , Rompope, Mezcal, Atole blanco, Licor de membrillo, Guacamaya.\n"
+
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Veracruz"
+    when m: Mensaje(status==Mensaje.valores.Veracruz,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "Veracruz  se encuentra  en la región de la costa del Golfo de México, a 140 km al sureste de Xalapa, la capital del estado de Veracruz,\n"+
+    "y a aproximadamente 390 km de la Ciudad de México . El puerto de Veracruz es considerado uno más importantes de México.\n"+
+    "En Veracruz  el calor no abandona en todo el año lo que convierte a este lugar en un verdadero paraíso de sol y playa, entre las playas\n"+
+    "más visitadas por el turismo se destacan: Villa del Mar, Playón de Hornos, Costa de Oro y Mocambo, algunas de ellas engalanadas por \n"+
+    "los grandes buques de la Marina.\n"+
+    "Las playas de Veracruz poseen un suave oleaje perfecto para practicar todo tipo de actividades acuáticas, en especial el buceo ya que\n"+
+    "en las zonas de arrecifes que conforman el Parque Nacional Sistema Arrecifal Veracruzano, podrá observar una gran cantidad de peces,\n"+
+    "corales y otras especies submarinas. Además en el acuario de Veracruz, el más grande y mejor equipado de Latinoamérica, podrá disfrutar\n"+
+    "de una gran variedad de impresionantes tiburones.\n\n"+
+
+    "La ciudad de Veracruz  posee un importante bagaje histórico lo cual se puede apreciar en la hermosa arquitectura de sus calles y los\n"+
+    "diversos museos que guardan la más rica historia  de México. Los edificios históricos más importantes que puede visitar son: el Faro,\n"+
+    "el Edificio de Correos, el Baluarte de Santiago y la fortaleza de San Juan de Ulúa, construida en medio del mar.\n\n"+
+
+    "Veracruz el Estado que lo tiene todo, le ofrece, además de emocionantes aventuras y paisajes majestuosos, una gastronomía de primer\n"+
+    "nivel que tiene sorpresas hasta para los paladares más exigentes. ¿Quién no gusta de deleitar su paladar con los manjares más exquisitos,\n"+
+    "en el Estado más bello y diverso de la República? Veracruz es uno de los estados con mayor tradición culinaria y cada una de las regiones\n"+
+    "que lo integran tiene su toque especial. La cocina veracruzana tiene todo un abanico de posibilidades complaciente para cualquier \n"+
+    "paladar ya que está condimentada con las especias más naturales y originales.Muestra de ello son los platillos provenientes del mar\n"+
+    "como el pescado en escabeche, los pulpos en su tinta, el arroz blanco, las empanadas de camarón, los pescaditos fritos, el chilpachole\n"+
+    "y el afamado Huachinango a la Veracruzana.\n\n"+
+
+    "Las ciudades cuya tradición gastronómica han cobrado fama incluso internacional son; Orizaba, Córdoba, algunas costeras como Tuxpan,\n"+
+    "Nautla y Tecolutla, por mencionar solo algunas. No solo sus bellezas naturales, si no su gran riqueza gastronómica, un día aquí sería\n"+
+    "incompleto sin degustar de una rica mojarra al chile - limón acompañada con malanga y yuca.\n"+
+    "La gastronomía que presume Costa Esmeralda es exquisita también, rica en sabor y sazón. Cualquier cantidad de mariscos y pescados en \n"+
+    "toda su variedad y tipo son suculentos y de deleite incomparable.El zacahuil, tamal hecho de carne de puerco y envuelto en hoja de plátano,\n"+
+    "le dejará sin duda asombrado. Podrá también deleitarse con unas deliciosas empanadas y otros platillos de la región, que sin duda están\n"+
+    "para chuparse los dedos.\n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Chiapas"
+    when m: Mensaje(status==Mensaje.valores.Chiapas,myMessage:message);
+    then
+    JOptionPane.showMessageDialog(null,
+    "El estado de Chiapas está localizado en el sureste de México. Colinda al este con Guatemala, al oeste conOaxaca, al norte con Tabasco,\n"+
+    "al sur con Océano Pacífico y al noroeste con Veracruz. Es un bellísimo paraíso conocido por sus atractivos turísticos que incluyen \n"+
+    "bellezas naturales, ruinas de civilizaciones precolombinas y el contacto directo con diferentes grupos culturales (desde etnias hasta\n"+
+    "extranjeros).En Chiapas los idiomas que se hablan son el Castellano (por la mayoría), Maya y Olmeca. La rica cultura maya continúa \n"+
+    "vigente y ha perpetuado algunos dialectos, como el chol, tojolabal, tzeltal, tzotzil, mame y lacandón. El dialecto olmeca es el Zoque.\n"+
+    "En cuanto a sus atractivos naturales, en la sierra deChiapas existen grandes extensiones de terreno pobladas por bosques y selvas, \n"+
+    "con plantas y animales exóticos, y el clima es templado húmedo.\n"+
+    "En Chiapas hay diversidad de platillos autóctonos por mencionar algunos como son: Frijol escumite con chilpiín, frijoles negros con\n"+
+    "carne salada de res, tanate y chumul, caldo de shuti, chanfaina estilo Soconusco, estofado de pollo, tamales de iguana, armadillo \n"+
+    "guisado, tamal de jacuané, nacapitu, cuchunuc, putzatzé, yumimujú, picte de elote, toro pinto y caldo de sihuamonte, mole de guajolote\n"+
+    "o el palmito de coroso, chaya, chipilín y hierba mora,caldo de chipilín, carne asada y longaniza, frijoles en sus diversas modalidades,\n"+
+    "y no podían faltar los tamales de chipilín, de elote, de bola, de carne con verdura, el casquito, pescado y mariscos.\n\n"+
+
+    "También se preparan exquisitas bebidas como el agua de Chicha y el pozol reventado, pozol negro y blanco, cacao, pinol y taberna,\n"+
+    "agua de naranja, tamarindo, papaya, tascalate, atol agrio, pinole, o, si lo prefiere, puede deleitarse con un rico chocolate.\n"+
+    "Dulces de plátano, chilacayote, cacahuate, chocolate, yuca, de ajonjolí, de calabaza, de papaya, coco molido, de cacahuate, turrón,\n"+
+    "tostadas de coco, y nuégado, pan de dulce y pasteles, y frutas de la región en ates, almíbar, cupapé, putzinu, caballito, melcocha,\n"+
+    "oblea, empanadas de queso y de leche. ombre Palenque ; que dicen quiere decir lugar de guerra, campo de batalla, o tierra de lucha.\n"+
+    "sea el platillo distintivo de la región. Entre tzotziles y tzeltales las formas más comunes del maíz son los elotes, las tortillas, \n"+
+    "los atoles, el pinol, los tamales y el pozol, una bebida tradicional obtenida a partir de una bola de masa envuelta en hoja de plátano. \n"
+);
+    m.setStatus(null);
+    update(m);
+end
+
+
+rule "Campeche"
+    when m: Mensaje(status==Mensaje.valores.Campeche,myMessage:message);
+    then
+    String descripcion="Campeche es una entidad con una variedad natural y cultural que lo coloca\n"+
+    "como un sitio ideal para la aventura y el aprendizaje.\n"+
+    "Su extenso litoral, que se complementa con la belleza de lugares como Isla\n"+
+    "del Carmen o Isla Aguada, lo dotan de paisajes coloreados por el agua y la\n"+
+    "vasta vegetación.\n\n"+
+    "Los caminos de este estado se engalanan con sitios arqueológicos mayas,\n"+
+    "haciendas que datan del siglo XVI y edificaciones históricas como la\n"+
+    "Catedral de Campeche, la Mansión Carvajal o el Palacio Municipal.\n"+
+    "El visitante también puede conocer conocer la extensa muralla que\n"+
+    "resguarda a San Francisco de Campeche, capital del estado y ciudad"+
+    "colonial declarada Patrimonio de la Humanidad por la UNESCO en 1999 gracias\n"+
+    "a su arquitectura y a sus enigmáticos baluartes.\n\n"+
+    "La exquisitez de la gastronomía campechana es otra razón para visitar esta\n"+
+    "región; platillos exóticos hechos con carne de armadillo, venado y algunas\n"+
+    "plantas locales, así como con productos del mar, son un verdadero deleite\n"+
+    "para el paladar.\n\n"+
+    "Museos, parques, áreas naturales protegidas, manglares, selvas, barcos y\n"+
+    "restos arqueológicos sumergidos que se reparten entre los arrecifes de la\n"+
+    "zona marina conviven en el estado.";
+    JOptionPane.showMessageDialog(null,myMessage);
+    m.setStatus(null);
+   update(m);
+end
+
+rule "QuintanaRoo"
+    when m: Mensaje(status==Mensaje.valores.QuintanaRoo,myMessage:message);
+    then
+    String descripcion="Bañado por aguas del Mar Caribe, Quintana Roo ofrece a sus visitantes una\n"+
+    "belleza natural imponente en medio de un ambiente lleno de historia y diversión;\n"+
+    "ejemplos perfectos son los destinos de la Riviera Maya y Cancún.\n\n"+
+    "Localizado en la parte este de la Península de Yucatán, este estado fue testigo\n"+
+    "fiel del florecimiento de la civilización maya, de la cual heredó sus riquezas\n"+
+    "gastronómicas, culturales y arqueológicas, que lo han convertido en el destino\n"+
+    "favorito de miles de turistas nacionales y extranjeros.\n\n"+
+    "Saborear uno de sus exquisitos platillos tradicionales, hechos a base de pescados\n"+
+    "y mariscos, pasar la tarde en una de sus playas, en las que el azul turquesa del\n"+
+    "mar contrasta con la blancura de la arena, o contemplar el atardecer desde una\n"+
+    "de sus pirámides, son algunas de lasactividades que pueden realizarse en este\n"+
+    "auténtico paraíso.\n\n"+
+    "A lo largo de su territorio se extienden zonas turísticas tan populares como\n"+
+    "Cancún, Playa del Carmen, Tulum, Cozumel, Isla Mujeres, Holbox, la Isla Contoy\n"+
+    "(Reserva de la Biósfera que requiere un  permiso especial para ser visitada) y\n"+
+    "Puerto Morelos. También existen varios parques naturales que conforman la\n"+
+    "afamada Riviera Maya, en la que se puede disfrutar de la vegetación tropical\n"+
+    "mientras se realizan actividades diversas en sus playas, cenotes o reservas\n"+
+    "ecológicas.";
+    JOptionPane.showMessageDialog(null,myMessage);
+    m.setStatus(null);
+   update(m);
+end

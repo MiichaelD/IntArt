@@ -1,0 +1,308 @@
+<object-stream>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>4</type>
+  <activationId>Inicio [1]</activationId>
+  <rule>Inicio</rule>
+  <declarations>myMessage=Contesta unas breves preguntas para poder ofrecerte
+un catalogo de lugares que podrian ser de tu agrado.(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>1</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>1</type>
+  <factId>2</factId>
+  <objectToString>com.prueba.PruebaDrools$Edo@1c4a5ec</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>1</type>
+  <factId>3</factId>
+  <objectToString>com.prueba.PruebaDrools@b3b6a6</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>6</type>
+  <activationId>Inicio [1]</activationId>
+  <rule>Inicio</rule>
+  <declarations>myMessage=Contesta unas breves preguntas para poder ofrecerte
+un catalogo de lugares que podrian ser de tu agrado.(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>4</type>
+  <activationId>CuandoViajar [1]</activationId>
+  <rule>CuandoViajar</rule>
+  <declarations>myMessage=Cuando Deseas Viajar?
+1)Verano
+2)Invierno
+
+3)Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>2</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>7</type>
+  <activationId>Inicio [1]</activationId>
+  <rule>Inicio</rule>
+  <declarations>myMessage=Cuando Deseas Viajar?
+1)Verano
+2)Invierno
+
+3)Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>6</type>
+  <activationId>CuandoViajar [1]</activationId>
+  <rule>CuandoViajar</rule>
+  <declarations>myMessage=Cuando Deseas Viajar?
+1)Verano
+2)Invierno
+
+3)Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>4</type>
+  <activationId>ViajaInvierno [1]</activationId>
+  <rule>ViajaInvierno</rule>
+  <declarations>myMessage=Qu� prefieres:
+1) Un lugar donde los d�as son muy fresco con poca lluvia durante el a�o.
+2) Un lugar donde los d�as con frescos y puede llegar a nevar.
+3) Un lugar donde hace calor y llueve durante casi todo el a�o.
+4) Un lugar donde hace calor y las lluvias son escasas.
+
+5) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>2</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>7</type>
+  <activationId>CuandoViajar [1]</activationId>
+  <rule>CuandoViajar</rule>
+  <declarations>myMessage=Qu� prefieres:
+1) Un lugar donde los d�as son muy fresco con poca lluvia durante el a�o.
+2) Un lugar donde los d�as con frescos y puede llegar a nevar.
+3) Un lugar donde hace calor y llueve durante casi todo el a�o.
+4) Un lugar donde hace calor y las lluvias son escasas.
+
+5) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>6</type>
+  <activationId>ViajaInvierno [1]</activationId>
+  <rule>ViajaInvierno</rule>
+  <declarations>myMessage=Qu� prefieres:
+1) Un lugar donde los d�as son muy fresco con poca lluvia durante el a�o.
+2) Un lugar donde los d�as con frescos y puede llegar a nevar.
+3) Un lugar donde hace calor y llueve durante casi todo el a�o.
+4) Un lugar donde hace calor y las lluvias son escasas.
+
+5) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>4</type>
+  <activationId>tienePlaya [1]</activationId>
+  <rule>tienePlaya</rule>
+  <declarations>myMessage=Te gustaria un lugar con playa
+1) Si
+2) No
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>2</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>7</type>
+  <activationId>ViajaInvierno [1]</activationId>
+  <rule>ViajaInvierno</rule>
+  <declarations>myMessage=Te gustaria un lugar con playa
+1) Si
+2) No
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>6</type>
+  <activationId>tienePlaya [1]</activationId>
+  <rule>tienePlaya</rule>
+  <declarations>myMessage=Te gustaria un lugar con playa
+1) Si
+2) No
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>4</type>
+  <activationId>esSeguro [1]</activationId>
+  <rule>esSeguro</rule>
+  <declarations>myMessage=Te importa mucho la seguridad del lugar que visitaras?
+1) Si
+2) No
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>2</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>7</type>
+  <activationId>tienePlaya [1]</activationId>
+  <rule>tienePlaya</rule>
+  <declarations>myMessage=Te importa mucho la seguridad del lugar que visitaras?
+1) Si
+2) No
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>6</type>
+  <activationId>esSeguro [1]</activationId>
+  <rule>esSeguro</rule>
+  <declarations>myMessage=Te importa mucho la seguridad del lugar que visitaras?
+1) Si
+2) No
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>4</type>
+  <activationId>Comida [1]</activationId>
+  <rule>Comida</rule>
+  <declarations>myMessage=Que tipo de comida prefieres:
+1) Mariscos
+2) Otro Tipo
+
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>2</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>7</type>
+  <activationId>esSeguro [1]</activationId>
+  <rule>esSeguro</rule>
+  <declarations>myMessage=Que tipo de comida prefieres:
+1) Mariscos
+2) Otro Tipo
+
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>6</type>
+  <activationId>Comida [1]</activationId>
+  <rule>Comida</rule>
+  <declarations>myMessage=Que tipo de comida prefieres:
+1) Mariscos
+2) Otro Tipo
+
+3) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>4</type>
+  <activationId>OtraComida [1]</activationId>
+  <rule>OtraComida</rule>
+  <declarations>myMessage=De las siguientes opciones, que le gusta mas?
+1) Tamales
+2) Pollo
+3) China
+4) Carne
+5) Queso
+
+6)Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>2</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>7</type>
+  <activationId>Comida [1]</activationId>
+  <rule>Comida</rule>
+  <declarations>myMessage=De las siguientes opciones, que le gusta mas?
+1) Tamales
+2) Pollo
+3) China
+4) Carne
+5) Queso
+
+6)Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>6</type>
+  <activationId>OtraComida [1]</activationId>
+  <rule>OtraComida</rule>
+  <declarations>myMessage=De las siguientes opciones, que le gusta mas?
+1) Tamales
+2) Pollo
+3) China
+4) Carne
+5) Queso
+
+6)Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>4</type>
+  <activationId>fin [1]</activationId>
+  <rule>fin</rule>
+  <declarations>myMessage=Los lugares mas afines a sus preferencias
+
+Pos.  Agrado     Lugar:
+1)           50          Queretaro
+2)           45          BajaCaliforniaSur
+
+11) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>2</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>7</type>
+  <activationId>OtraComida [1]</activationId>
+  <rule>OtraComida</rule>
+  <declarations>myMessage=Los lugares mas afines a sus preferencias
+
+Pos.  Agrado     Lugar:
+1)           50          Queretaro
+2)           45          BajaCaliforniaSur
+
+11) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>6</type>
+  <activationId>fin [1]</activationId>
+  <rule>fin</rule>
+  <declarations>myMessage=Los lugares mas afines a sus preferencias
+
+Pos.  Agrado     Lugar:
+1)           50          Queretaro
+2)           45          BajaCaliforniaSur
+
+11) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+<org.drools.audit.event.ObjectLogEvent>
+  <type>2</type>
+  <factId>1</factId>
+  <objectToString>com.prueba.PruebaDrools$Mensaje@17b2b2</objectToString>
+</org.drools.audit.event.ObjectLogEvent>
+<org.drools.audit.event.ActivationLogEvent>
+  <type>7</type>
+  <activationId>fin [1]</activationId>
+  <rule>fin</rule>
+  <declarations>myMessage=Los lugares mas afines a sus preferencias
+
+Pos.  Agrado     Lugar:
+1)           50          Queretaro
+2)           45          BajaCaliforniaSur
+
+11) Salir(1); m=com.prueba.PruebaDrools$Mensaje@17b2b2(1)</declarations>
+</org.drools.audit.event.ActivationLogEvent>
+</object-stream>

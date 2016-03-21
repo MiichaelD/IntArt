@@ -1,0 +1,876 @@
+package com.sample
+ 
+import com.sample.DroolsTest.Message;
+import javax.swing.JOptionPane;
+
+
+rule "Inicio"
+    when
+        m : Message( status == Message.INICIO, myMessage : message )
+    then
+    	JOptionPane.showMessageDialog(null, myMessage);
+        m.setStatus( Message.nombre );
+        update( m );
+end
+
+//REGLA 2
+rule "regla nombre"	
+    when
+       m: Message( status == Message.nombre, myMessage : message )
+    then
+    String nom="";
+
+	nom=JOptionPane.showInputDialog(null,"Escribe tu nombre",
+	    JOptionPane.QUESTION_MESSAGE);  			      
+  	
+	JOptionPane.showMessageDialog(null,"Hola "+nom+" ahora vamos elegir una rutina de ejercicio");			
+	
+	m.setStatus( Message.edad);
+	update( m );
+end
+
+//REGLA 3
+rule "regla edad"
+when
+       m: Message( status == Message.edad, myMessage : message )
+    	then
+    		try{
+    		int eda = Integer.parseInt(JOptionPane.showInputDialog(null,"Escribe tu Edad",JOptionPane.QUESTION_MESSAGE));
+	          m.setStatus( Message.peso );	
+			}	
+	       catch(NumberFormatException ex){  
+        	JOptionPane.showMessageDialog(null,"Indique un valor numerico en este campo");
+	           m.setStatus( Message.edad ); }  
+	update( m );
+end
+
+//REGLA 4
+rule "regla peso"
+when
+       m: Message( status == Message.peso, myMessage : message )
+    then
+    
+    	try{ 
+    	int pes=0;
+    	pes = Integer.parseInt(JOptionPane.showInputDialog(null,"Indique su peso (Kg.)",JOptionPane.QUESTION_MESSAGE));
+				  
+	m.setStatus( Message.estatura );
+	}	   
+	 
+	catch(NumberFormatException ex){  
+    	JOptionPane.showMessageDialog(null,"Indique un valor numerico en este campo"); 
+    			
+	m.setStatus( Message.peso ); 
+  	}  			      
+  		
+	 update( m );
+end
+
+//REGLA 5
+rule "Regla estatura"
+when
+       m: Message( status == Message.estatura, myMessage : message )
+    	then
+    	try{
+    		int estu=0;
+    	estu= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique su estatura (cm.)",JOptionPane.QUESTION_MESSAGE));
+				  
+	m.setStatus( Message.sexo );
+			
+	}	   
+	 catch(NumberFormatException ex){  
+    	JOptionPane.showMessageDialog(null,"Indique un valor numerico en este campo"); 
+    			
+	m.setStatus( Message.estatura ); 
+  	}  
+	update( m );
+end
+
+//REGLA 6
+rule "Regla sexo"
+ when
+       m: Message( status == Message.sexo, myMessage : message )
+    	then
+    	int sex=0;
+	sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique su sexo" +
+		"\n1.-Mujer\n2.-Hombre",JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+			case 2:
+				m.setStatus( Message.hombre );
+				break;
+			case 1:
+				m.setStatus( Message.mujer );
+				break;
+			default:
+				JOptionPane.showMessageDialog(null, "Error");
+				break;
+				}
+			update( m );
+end
+
+//REGLA 7
+rule "regla estructura"
+when
+       m: Message( status == Message.estructura, myMessage : message )
+    then 
+    int con=Integer.parseInt(JOptionPane.showInputDialog(null,"Tu estructura osea es:" + "\n1.-Muy grande\n2.-Medio grande\n3.-Pequeña o fragil\n4.-Salir",
+	JOptionPane.QUESTION_MESSAGE)); 	
+  		
+	if(con==4){
+		 System.exit(0);
+		     }
+	if(con>=5){
+		    JOptionPane.showMessageDialog(null, "Elige la opcion correcta");
+		    m.setStatus( Message.estructura);
+        update( m );				
+	    
+			}
+	m.setStatus( Message.cuerpoA );
+        update( m );	
+						
+end
+
+//REGLA 8
+rule "Regla cuerpoA"
+when
+       m: Message( status == Message.cuerpoA, myMessage : message )
+    then
+   int estu=Integer.parseInt(JOptionPane.showInputDialog(null,"Tu cuerpo tiende a:" +"\n1.-Acumular demasiada grasa\n2.-Ser delgado y musculoso\n3.-Ser demasiado flaco\n4.-Salir",JOptionPane.QUESTION_MESSAGE)); 	
+           
+			if(estu==4){
+		    	 System.exit(0);
+			}
+			
+			if(estu>=5){
+		    	JOptionPane.showMessageDialog(null, "Elige la opcion correcta");
+		    	m.setStatus( Message.cuerpoA);
+	        update( m );				
+	    
+			}
+			m.setStatus( Message.nino );
+			update( m );							
+end
+
+
+
+//REGLA 9
+rule "Regla hombre"
+when
+       m: Message( status == Message.hombre, myMessage : message )
+    then
+       
+    int hom =Integer.parseInt(JOptionPane.showInputDialog(null,
+    "Tu cuerpo se ve:\n1.-Redondo y suave\n2.-Cuadrado y rugoso\n3.-Largo y tenue\n4.-Salir",JOptionPane.QUESTION_MESSAGE)); 	
+
+			if(hom==4){
+		        System.exit(0);
+				 }
+				 
+			if(hom>=5){
+		    	JOptionPane.showMessageDialog(null, "Elige la opcion correcta");
+		    	m.setStatus( Message.hombre);
+	        update( m );				
+	    
+					 }
+					 m.setStatus( Message.pesoA );
+			update( m );
+end
+//REGLA 10
+rule "Regla mujer"
+when
+       m: Message( status == Message.mujer, myMessage : message )
+    then
+   int muj =Integer.parseInt(JOptionPane.showInputDialog(null,
+   "Tu cuerpo se ve:\n1.-En forma de pera\n2.-Como reloj de arena\n3.-Muy derecho y largo\n4.-Salir",JOptionPane.QUESTION_MESSAGE)); 	
+          
+           if(muj==4){
+		       System.exit(0);
+		  	  }
+	   	   if(muj>=5){
+		    	JOptionPane.showMessageDialog(null, "Elige la opcion correcta");
+		    	m.setStatus( Message.mujer);
+	    	    update( m );				
+	   		 }
+		  	m.setStatus( Message.pesoA );
+			update( m );
+end
+//REGLA 11
+rule "Regla PesoA"
+when
+       m: Message( status == Message.pesoA, myMessage : message )
+    then
+
+int	con= Integer.parseInt(JOptionPane.showInputDialog(null,"Con respecto a tu peso, tu... " +"\n1.-Tienes problemas para subir de peso \n2.-Ganas y pierdes peso facilmente. Permaneces igual"+"\n3.-Ganas peso facilmente, pero te cuesta perderlo\n4.Salir",JOptionPane.QUESTION_MESSAGE));
+
+		if(con==4){
+			System.exit(0);
+				}
+		if(con>=5){
+			JOptionPane.showMessageDialog(null, "Elige la opcion correcta");
+			
+		m.setStatus( Message.pesoA);
+		update( m );	
+				}
+		m.setStatus( Message.hambre);
+		update( m );
+end
+
+//REGLA 12
+rule "Regla Hambre"
+when
+       m: Message( status == Message.hambre, myMessage : message )
+    then
+
+int	con= Integer.parseInt(JOptionPane.showInputDialog(null,"Tu tienes hambre... " +"\n1.-Raramente \n2.-A la hora de comer"+"\n3.-Casi todo el tiempo\n4.Salir",
+JOptionPane.QUESTION_MESSAGE));
+					
+		if(con==4){
+			System.exit(0);
+			    }
+		if(con>=5){
+			JOptionPane.showMessageDialog(null, "Elige la opcion correcta");
+		
+		m.setStatus( Message.hambre);
+		update( m );	
+			}
+			
+		m.setStatus( Message.descripcion);
+		update( m );
+end
+
+//REGLA 13
+rule "Regla Te Describen"
+when
+       m: Message( status == Message.descripcion, myMessage : message )
+    then
+
+int	con= Integer.parseInt(JOptionPane.showInputDialog(null,"La gente te describiria como... " +"\n1.-Una persona intelectual \n2.-Una persona fisica"+
+"\n3.-Una persona emocional\n4.Salir",JOptionPane.QUESTION_MESSAGE));
+					
+		if(con==4){
+			System.exit(0);
+					   	  }
+		if(con>=5){
+			JOptionPane.showMessageDialog(null, "Elige la opcion correcta");
+					         
+		m.setStatus( Message.descripcion);	
+			    }
+
+		m.setStatus( Message.rutinas);
+			update( m );
+end
+
+
+
+//REGLA 14
+rule "Regla rutinas"
+when
+       m: Message( status == Message.rutinas, myMessage : message )
+    then
+    int rut=0;
+	
+	rut= Integer.parseInt(JOptionPane.showInputDialog(null,"Alguna ves has estado en un GYM" +"\n1.-Si\n2.-No",
+	JOptionPane.QUESTION_MESSAGE));
+		switch(rut){
+			case 2:
+				m.setStatus( Message.principiante );
+				break;
+			case 1:
+				m.setStatus( Message.tipo );
+				break;
+			default:
+				JOptionPane.showMessageDialog(null, "Error");
+				break;
+				}
+		update( m );
+end
+
+//REGLA 15
+rule "Regla principiante"
+when
+       m: Message( status == Message.principiante, myMessage : message )
+    then
+    int sex=0;
+	   sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Que parte del cuerpo deseas ejercitar" +"\n1.-Brazos\n2.-Pecho\n3.-Piernas", JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+			
+			case 1:
+				 m.setStatus( Message.rutbrazo );
+				 break;
+			case 2:
+				 m.setStatus( Message.rutpecho );
+				 break;
+			case 3:
+				 m.setStatus(Message.rutpierna);
+				 break;
+			default:
+				 JOptionPane.showMessageDialog(null, "Error");
+				 break;
+				}
+		update( m );
+end
+
+//REGLA 16
+rule "regla rutbrazo"
+    when
+       m: Message( status == Message.rutbrazo, myMessage : message )
+    then
+    int sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indica el musculo a ejercitar" +"\n1.-Biceps\n2.-Triceps\n3.-Braquiorradial", JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+			case 1:
+				m.setStatus( Message.biceps);
+				break;
+			case 2:
+				m.setStatus( Message.triceps);
+				break;
+			case 3:
+				m.setStatus( Message.bran);
+				break;
+			default:
+				JOptionPane.showMessageDialog(null, "Error");
+				break;
+				}
+		update( m );					
+end
+
+//REGLA 17
+rule "Regla biceps"
+when
+       m: Message( status == Message.biceps, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null, "Rutina recomendada:\n Por lo menos 30 minutos de calentamiento(estiramiento de brazos)"+
+    "\n \n Proceso a seguir: Tomar 2 mancuernas de 10 libras en cada mano."+
+    "\n\n Sentado, con una mancuerna en cada mano y cogidas en semipronación,"+ 
+    "\n\n Inspirar y flexionar los antebrazos hacia los brazos efectuando una"+
+    "\n rotación externa de la muñeca antes de que los antebrazos alcancen la horizontal."+"\n\n Finalizar el movimiento elevando los codos, espirar al final del movimiento.  "+"\n\nNOTA: Hacer 3 repeticiones de 15 cada 1");					  
+	System.exit(0);
+end
+
+//REGLA 18
+rule "Regla triceps"
+when
+       m: Message( status == Message.triceps, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"Rutina recomendada:\n Por lo menos 30 minutos de calentamiento(estiramiento de brazos)"+
+    "\n \n Proceso a seguir: tomar 1 mancuernas de 10 libras."+
+    "\n \nSentado en un banco bajo, cogemos una mancuerna con los pulgares hacia dentro y con el brazo estirado,"+ 
+    "\n como si fuéramos a hacer hombro, bajamos el antebrazo por detrás de nuestra cabeza sujetándonos la otra"+
+    "\n porción del brazo con la mano libre."+
+    "\n \nNOTA: Hacer 3 repeticiones de 15 cada 1");					  
+	System.exit(0);
+end
+//REGLA 19
+rule "Regla bra"
+when
+       m: Message( status == Message.bran, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null, "Rutina a ejercer:\n Por lo menos 30 minutos de calentamiento(estiramiento de brazos)"+
+    "\n \n Proceso a seguir: tomar 2 mancuernas de 10 libras en cada mano."+
+    "\n \nSentado en un banco, con la espalda recta, situar la mancIndique un valor numerico en este campouerna a la altura de los hombros cogidas en pronación."+"\n \n Inspirar y desarrollar hasta estirar los brazos verticalmente."+"\n \nNOTA: Hacer 3 repeticiones de 15 cada 1");					  
+	System.exit(0);
+end
+
+//REGLA 20
+rule "Regla tipo"
+when
+       m: Message( status == Message.tipo, myMessage : message )
+    then
+    int sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Tiempo realizando ejercicio" +"\n1.-1 dia a 1 año\n2.-1 año a 3 años\n3.-mas de 3 años",
+	JOptionPane.QUESTION_MESSAGE));
+		
+			switch(sex){
+					case 1:
+					 m.setStatus( Message.novato);
+					break;
+					case 2:
+					m.setStatus( Message.experto);
+					break;
+					case 3:
+					 m.setStatus( Message.cul);
+					break;
+					
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+	
+end
+//REGLA 21
+rule "Regla rutpecho"
+when
+       m: Message( status == Message.rutpecho, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null, "rutina a ejercer:\n 30 minutos de calentamiento(extiramiento de brazos)"+
+    "\n proceso a seguir:Tumbado en banco plano, con los glúteos en contacto con el banco y los pies en el suelo."+"\nCoger la barra con las manos en pronacion y separadas con una longitud mayor que los hombros."+ "\nBajar la barra hasta el pecho con el peso controlado y desarrollar con la ayuda de la expiración."+
+    "\nNOTA: Hacer 3 repeticiones de 15 cada 1");					  
+	
+System.exit(0);
+end
+//REGLA 22
+rule "Regla rutpierna"
+when
+       m: Message( status == Message.rutpierna, myMessage : message )
+    then
+    int sex=0;
+    sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique musculo a ejercitar" +"\n1.-cuadriceps\n2.-tendón de la cova\n3.-pantorrillas(geminos)",
+     JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+			case 1:
+				m.setStatus( Message.cuadriceps);
+				break;
+			case 2:
+				m.setStatus( Message.tendon);
+				break;
+			case 3:
+				m.setStatus( Message.pantorrilla);
+				break;
+			default:
+				JOptionPane.showMessageDialog(null, "Error");
+				break;
+				}
+		update( m );
+	
+end
+//REGLA 23
+rule "Regla cuadriceps"
+    when
+       m: Message( status == Message.cuadriceps, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 1 hora de calentamiento(en bicicleta)\nrealizar sentadillas con una barra que pese 10 libras"+"\nponer la barra por detras de tu nuca."+"\nNOTA: Acer 4 repeticiones de 20 cada 1");					  
+	
+System.exit(0); 
+
+end
+
+//REGLA 24
+rule "Regla tendon"
+when
+       m: Message( status == Message.tendon, myMessage : message )
+    then					  
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 1 hora de calentamiento(en bicicleta)\nrealizar sentadillas con una barra que pese 10 libras"+ "\nponer la barra por detras de tu nuca."+"\nNOTA: Hacer 4 repeticiones de 20 cada 1");					  
+	System.exit(0); 
+
+	end
+
+
+//REGLA 25
+rule "Regla pantorillas"
+when
+       m: Message( status == Message.pantorrilla, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 1 hora de calentamiento(en bicicleta)\nrealizar sentadillas con una barra que pese 10 libras"+"\nponer la barra por detras de tu nuca."+"\nNOTA: Hacer 4 repeticiones de 20 cada 1");					  
+	System.exit(0); 
+end
+
+//REGLA 26
+
+rule "Regla novato"
+when
+       m: Message( status == Message.novato, myMessage : message )
+    then
+    int sex=0;
+	   sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Que parte del cuerpo a ejercitar" +"\n1.-brazos\n2.-pecho\n3.-piernas",
+	   JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.nbrazo );
+					break;
+					case 2:
+					 m.setStatus( Message.npecho );
+					break;
+					case 3:
+					m.setStatus(Message.npierna);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+end
+
+//REGLA 27
+rule "Regla nbrazo"
+    when
+       m: Message( status == Message.nbrazo, myMessage : message )
+    then
+    int sex=0;
+	  sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique musculo a ejercitar" +"\n1.-biceps\n2.-triceps\n3.-braquiorradial",
+	JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.nbiceps);
+					break;
+					case 2:
+					 m.setStatus( Message.ntriceps);
+					break;
+					case 3:
+					 m.setStatus( Message.nbran);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+	
+    end
+
+//REGLA 28
+rule "Regla npecho"
+when
+       m: Message( status == Message.npecho, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 1/2 hora de calentamiento(caminta y escaladora)"+"\nrealizar fondos en paralelas o aperturas con mancuernas"+"\nNOTA:  al inicio de cada ejercicio una serie adicional con la mitad del peso apropiado y el doble de repeticiones.");					  
+	
+	System.exit(0);
+    
+end
+
+//REGLA 29
+rule "Regla npierna"
+when
+m: Message( status == Message.npierna, myMessage : message )
+    then
+       int sex=0;
+	  sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique musculo a ejercitar" +"\n1.-cuadriceps\n2.-tendón de la cova\n3.-pantorrillas(geminos)",
+	  JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.ncuadriceps);
+					break;
+					case 2:
+					 m.setStatus( Message.ntendon);
+					break;
+					case 3:
+					 m.setStatus( Message.npantorrilla);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );	
+end
+//REGLA 30
+rule "Regla nbiceps"
+when
+       m: Message( status == Message.nbiceps, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 20 min. de calentamiento(caminta o escaladora)"+ "\nrealizar Curl de bìceps en banco Scott o Curl de bìceps alterno con supinación"+"\nNOTA:  al inicio de cada ejercicio una serie adicional con la mitad del peso apropiado y el doble de repeticiones.");	  
+	System.exit(0); 
+end
+//REGLA 31
+rule "Regla ntriceps"
+when
+       m: Message( status == Message.ntriceps, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 20 min. de calentamiento(escaladora)"+
+    "\nrealizar Extensión vertical alternada con mancuernas o Patada atrás con mancuerna"+"\nNOTA:  al inicio de cada ejercicio una serie adicional con la mitad del peso apropiado y el doble de repeticiones.");			  
+	System.exit(0); 
+end
+
+//REGLA 32
+rule "Regla nbran"
+when
+       m: Message( status == Message.nbran, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(caminadora o lagartijas)\nrealizar"+"\ncurls con agarre neutro, como el curl martillo en banco inclinado" +"\nNOTA:  hacer una pausa isométrica de dos segundos antes de que el codo llegue a los 90º son 15 repeticiones de 5 series.");					  
+	System.exit(0); 
+end
+
+//REGLA 33
+rule "Regla ncuadriceps"
+when
+       m: Message( status == Message.ncuadriceps, myMessage : message )
+    then					  
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(caminar rapido en la cinta)\nrealizar"+"\nUna semana sentadillas y la siguiente zancadas o"+"\nExtensiones de pierna en prensa inclinada "
++"\nNOTA:  4 series en repeticiones descendentes (12, 10, 8, 6) incrementando el peso de una a la otra,");								  
+	System.exit(0);
+end
+
+//REGLA 34
+rule "Regla ntendon"
+when
+       m: Message( status == Message.ntendon, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(flexibilidad y trotes cortos)\nrealizar"+  "\nLas flexiones de brazos c/s rodillas y Dorsaleras "+"\nNOTA: 3 series de 20");								  
+	System.exit(0); 
+end
+
+//REGLA 35
+rule "Regla npantorrilla"
+when
+       m: Message( status == Message.npantorrilla, myMessage : message )
+    then
+   JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(estiramiento)\nrealizar"+"\nElevación de talón con barra en hombros y Elevación de talón con barra en muslos "+"\nNOTA: Realizarás 3"+
+   "\nseries de por lo menos 15 repeticiones, descansando 45 segundos entre cada ejecución");								  
+	System.exit(0); 
+end
+
+//REGLA 36
+rule "Regla exp"
+when
+       m: Message( status == Message.experto, myMessage : message )
+    then
+    int sex=0;
+	   sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Que parte del cuerpo a ejercitar" +"\n1.-brazos\n2.-pecho\n3.-piernas", JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.ebrazo );
+					break;
+					case 2:
+					 m.setStatus( Message.epecho );
+					break;
+					case 3:
+					m.setStatus(Message.epierna);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+end
+
+//REGLA 37
+rule "Regla ebrazo"
+when
+       m: Message( status == Message.ebrazo, myMessage : message )
+    then
+    int sex=0;
+		sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique musculo a ejercitar" +"\n1.-biceps\n2.-triceps\n3.-braquiorradial",
+		JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.ebiceps);
+					break;
+					case 2:
+					 m.setStatus( Message.etriceps);
+					break;
+					case 3:
+					 m.setStatus( Message.ebran);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+	
+end
+//REGLA 38
+rule "Regla epecho"
+when
+       m: Message( status == Message.epecho, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(estiramiento)\nrealizar"+"\npress de banca: 2x10 + 2x5 + 1x20 y"+
+"\naperturas inclinadas: 2x10");								  
+	System.exit(0); 
+end
+
+//REGLA 39
+rule "Regla epierna"
+when
+       m: Message( status == Message.epierna, myMessage : message )
+    then
+   int sex=0;
+	sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique musculo a ejercitar" +"\n1.-cuadriceps\n2.-tendón de la cova\n3.-pantorrillas(geminos)",
+	JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.ecuadriceps);
+					break;
+					case 2:
+					 m.setStatus( Message.etendon);
+					break;
+					case 3:
+					 m.setStatus( Message.epantorrilla);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+end
+//REGLA 40
+rule "Regla ebiceps"
+when
+       m: Message( status == Message.ebiceps, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(estiramiento)\nrealizar" +"biceps banco scott con barra 4 de 10"
++"biceps banco scott con mancuernas 4 de 10"+"biceps con barra de frente 4 de 10");								  
+	System.exit(0); 
+end
+
+//REGLA 41
+rule "Regla etriceps"
+when
+       m: Message( status == Message.etriceps, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(estiramiento)\nrealizar"+"\nDe pie y con el tronco ligeramente flexionado hacia delante, "+"\nmanteniendo la espalda recta, colocamos el brazo en horizontal y "+"\nparalelo al cuerpo con el codo flexionado. Inspirar y efectuar una"+ "\nextensión del antebrazo. Espirar al final del movimiento."+
+"\nEste ejercicio es excelente para congestionar el conjunto de trìceps."+ 
+"\nPara un mejor resultado, puede ejecutarse en serie larga hasta alcanzar la sensación de quemazón.\nNOTA: 10 sesiones de 10 cada una" );					  
+	System.exit(0);
+end
+
+//REGLA 42
+rule "Regla ebran"
+    when
+       m: Message( status == Message.ebran, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(caminadora o lagartijas)\nrealizar"+
+     "\ncurls con agarre neutro, como el curl martillo en banco inclinado"
+     +"\nNOTA:  hacer una pausa isométrica de dos segundos antes de que el codo llegue a los 90º son 15 repeticiones de 10 series.");					  
+	System.exit(0); 
+	end
+
+//REGLA 43
+rule "Regla ecuadriceps"
+when
+       m: Message( status == Message.ecuadriceps, myMessage : message )
+        then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(caminar rapido en la cinta)\nrealizar"+"\nUna semana sentadillas y la siguiente zancadas o"+ "\nExtensiones de pierna en prensa inclinada "
++"\nNOTA:  10 series en repeticiones descendentes (12, 10, 8, 6) incrementando el peso de una a la otra" );					  
+	System.exit(0);
+end
+
+//REGLA 44
+rule "Regla etendon"
+when
+       m: Message( status == Message.etendon, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(flexibilidad y trotes cortos)\nrealizar"+
+  "\nLas flexiones de brazos c/s rodillas y Dorsaleras "+"\nNOTA: 8 series de 20");								  
+	System.exit(0); 
+	end
+
+//REGLA 45
+rule "Regla cul"
+when
+       m: Message( status == Message.cul, myMessage : message )
+    then
+    int sex=0;
+	sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Que parte del cuerpo a ejercitar" +"\n1.-brazos\n2.-pecho\n3.-piernas",
+	JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.cbrazo );
+					break;
+					case 2:
+					 m.setStatus( Message.cpecho );
+					break;
+					case 3:
+					m.setStatus(Message.cpierna);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+end
+
+//REGLA 46
+rule "Regla cbrazo"
+when
+       m: Message( status == Message.cbrazo, myMessage : message )
+    then
+    int sex=0;
+	sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique musculo a ejercitar" +"\n1.-biceps\n2.-triceps\n3.-braquiorradial",
+						JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.cbiceps);
+					break;
+					case 2:
+					 m.setStatus( Message.ctriceps);
+					break;
+					case 3:
+					 m.setStatus( Message.cbran);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+	
+end
+//REGLA 47
+rule "Regla cpecho"
+when
+       m: Message( status == Message.cpecho, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(estiramiento)\nrealizar"+"\npress de banca: 3x15 + 3x15 + 2x20 y"+
+"\naperturas inclinadas: 3x15");								  
+	System.exit(0);
+end
+
+//REGLA 48
+rule "Regla cpierna"
+when
+       m: Message( status == Message.cpierna, myMessage : message )
+    then
+   int sex=0;
+	sex= Integer.parseInt(JOptionPane.showInputDialog(null,"Indique musculo a ejercitar" +"\n1.-cuadriceps\n2.-tendón de la cova\n3.-pantorrillas(geminos)",
+		JOptionPane.QUESTION_MESSAGE));
+		switch(sex){
+					case 1:
+					 m.setStatus( Message.ccuadriceps);
+					break;
+					case 2:
+					 m.setStatus( Message.ctendon);
+					break;
+					case 3:
+					 m.setStatus( Message.cpantorrilla);
+					break;
+					default:
+						JOptionPane.showMessageDialog(null, "Error");
+					break;
+					}
+				update( m );
+end
+//REGLA 49
+rule "Regla cbiceps"
+when
+       m: Message( status == Message.cbiceps, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(estiramiento)\nrealizar"+"biceps banco scott con barra 8 de 15"
++"biceps banco scott con mancuernas 8 de 15"+"biceps con barra de frente 8 de 15");								  
+	System.exit(0);					  
+
+end
+//REGLA 50
+rule "Regla ctriceps"
+when
+       m: Message( status == Message.ctriceps, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(estiramiento)\nrealizar"+"\nDe pie y con el tronco ligeramente flexionado hacia delante, "+"\nmanteniendo la espalda recta, colocamos el brazo en horizontal y "+"\nparalelo al cuerpo con el codo flexionado. Inspirar y efectuar una"+ "\nextensión del antebrazo. Espirar al final del movimiento."+
+"\nEste ejercicio es excelente para congestionar el conjunto de trìceps."+ 
+"\nPara un mejor resultado, puede ejecutarse en serie larga hasta alcanzar la sensación de quemazón.\nNOTA: Aser 15 sesiones de 10 repeticiones" );					  
+	System.exit(0);
+end
+
+//REGLA 51
+rule "Regla cbran"
+    when
+       m: Message( status == Message.cbran, myMessage : message )
+    then
+  JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(caminadora o lagartijas)\nrealizar"+
+     "\ncurls con agarre neutro, como el curl martillo en banco inclinado"
+     +"\nNOTA:  hacer una pausa isométrica de dos segundos antes de que el codo llegue a los 90º son 15 repeticiones de 20 series." );					  
+	System.exit(0);
+	end
+//REGLA 52
+rule "Regla ccuadriceps"
+when
+       m: Message( status == Message.ccuadriceps, myMessage : message )
+        then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(caminar rapido en la cinta)\nrealizar"+"\nUna semana sentadillas y la siguiente zancadas o"+"\nExtensiones de pierna en prensa inclinada "
++"\nNOTA:  10 series en repeticiones descendentes (12, 10, 8, 6) incrementando el peso de una a la otra" );					  
+	System.exit(0);
+end
+
+//REGLA 53
+rule "Regla ctendon"
+when
+       m: Message( status == Message.ctendon, myMessage : message )
+    then
+    JOptionPane.showMessageDialog(null,"rutina a ejercer: 30 min. de calentamiento(flexibilidad y trotes cortos)\nrealizar"+ "\nLas flexiones de brazos c/s rodillas y Dorsaleras "+"\nNOTA: 15 series de 20" );					  
+	System.exit(0);
+end
